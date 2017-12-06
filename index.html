@@ -228,6 +228,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/jatinAPI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/jatinAPI/" itemprop="url">jatinAPI</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T16:10:49+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="jatin留学生作业API接口-V1-0"><a href="#jatin留学生作业API接口-V1-0" class="headerlink" title="jatin留学生作业API接口_V1.0"></a>jatin留学生作业API接口_V1.0</h1><h2 id="客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。"><a href="#客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。" class="headerlink" title="客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。"></a>客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。</h2><h3 id="原生广告"><a href="#原生广告" class="headerlink" title="原生广告"></a>原生广告</h3><pre><code>GET /users/reg?email=&amp;username=&amp;pwd=
+</code></pre><h5 id="请求参数说明"><a href="#请求参数说明" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册邮箱</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，要求md5加密</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明"><a href="#返回值说明" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	"code": 1 //1-sucess,0=failed</span><br><span class="line">	"data":&#123;</span><br><span class="line">		"mid": 123, </span><br><span class="line">    	"email": "http://abc.com/default.jpg",</span><br><span class="line">    	"username": "八宝山趐臀颜王",</span><br><span class="line">    	"accessToken": "xxx00yyyzzz",//访问其他信息时使用此token请求</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果code为0，表示注册失败<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	"code": 0 //1-sucess,0=failed</span><br><span class="line">	"msg":"email has been used!"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -389,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
