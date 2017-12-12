@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="jatin留学生作业API接口_V1.0客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。原生广告GET /users/reg?email=&amp;amp;username=&amp;amp;pwd= 请求参数说明   NAME TYPE REQUIRED MEMO     email string Y 注册邮箱   username string Y 用户名   pwd st">
+<meta name="description" content="jatin留学生作业API接口_V1.0###客户需求要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。用户密码必须加密，连接学校提供的数据库，部署到学校提供的服务器。注：需要校园内网才能连接数据库，可先建立测试数据库进行开发。 邮箱注册GET /users/reg?email=&amp;amp;username=&amp;amp;pwd= 请求参数说明   NAME TYPE REQUI">
 <meta name="keywords" content="API,学生作业">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jatinAPI">
 <meta property="og:url" content="http://yoursite.com/2017/12/06/jatinAPI/index.html">
 <meta property="og:site_name" content="薛永伟">
-<meta property="og:description" content="jatin留学生作业API接口_V1.0客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。原生广告GET /users/reg?email=&amp;amp;username=&amp;amp;pwd= 请求参数说明   NAME TYPE REQUIRED MEMO     email string Y 注册邮箱   username string Y 用户名   pwd st">
+<meta property="og:description" content="jatin留学生作业API接口_V1.0###客户需求要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。用户密码必须加密，连接学校提供的数据库，部署到学校提供的服务器。注：需要校园内网才能连接数据库，可先建立测试数据库进行开发。 邮箱注册GET /users/reg?email=&amp;amp;username=&amp;amp;pwd= 请求参数说明   NAME TYPE REQUI">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-12T02:20:25.000Z">
+<meta property="og:updated_time" content="2017-12-12T02:30:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jatinAPI">
-<meta name="twitter:description" content="jatin留学生作业API接口_V1.0客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。原生广告GET /users/reg?email=&amp;amp;username=&amp;amp;pwd= 请求参数说明   NAME TYPE REQUIRED MEMO     email string Y 注册邮箱   username string Y 用户名   pwd st">
+<meta name="twitter:description" content="jatin留学生作业API接口_V1.0###客户需求要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。用户密码必须加密，连接学校提供的数据库，部署到学校提供的服务器。注：需要校园内网才能连接数据库，可先建立测试数据库进行开发。 邮箱注册GET /users/reg?email=&amp;amp;username=&amp;amp;pwd= 请求参数说明   NAME TYPE REQUI">
 
 
 
@@ -342,8 +342,9 @@
       
 
       
-        <h1 id="jatin留学生作业API接口-V1-0"><a href="#jatin留学生作业API接口-V1-0" class="headerlink" title="jatin留学生作业API接口_V1.0"></a>jatin留学生作业API接口_V1.0</h1><h2 id="客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。"><a href="#客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。" class="headerlink" title="客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。"></a>客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。</h2><h3 id="原生广告"><a href="#原生广告" class="headerlink" title="原生广告"></a>原生广告</h3><pre><code>GET /users/reg?email=&amp;username=&amp;pwd=
-</code></pre><h5 id="请求参数说明"><a href="#请求参数说明" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+        <h1 id="jatin留学生作业API接口-V1-0"><a href="#jatin留学生作业API接口-V1-0" class="headerlink" title="jatin留学生作业API接口_V1.0"></a>jatin留学生作业API接口_V1.0</h1><p>###客户需求<br>要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。<br>用户密码必须加密，连接学校提供的数据库，部署到学校提供的服务器。<br>注：需要校园内网才能连接数据库，可先建立测试数据库进行开发。</p>
+<h3 id="邮箱注册"><a href="#邮箱注册" class="headerlink" title="邮箱注册"></a>邮箱注册</h3><p>GET /users/reg?email=&amp;username=&amp;pwd=</p>
+<h5 id="请求参数说明"><a href="#请求参数说明" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
 <thead>
 <tr>
 <th>NAME</th>
@@ -357,7 +358,91 @@
 <td>email</td>
 <td>string</td>
 <td>Y</td>
-<td>注册邮箱</td>
+<td>注册邮箱，不可重复</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名，不可重复</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，要求数据库存加密后的密码</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明"><a href="#返回值说明" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"data":&#123;</span><br><span class="line">"mid": 123,</span><br><span class="line">"email": "foo@bar.com",</span><br><span class="line">"username": "八宝山趐臀颜王",</span><br><span class="line">"token": "xxx00yyyzzz",//访问其他信息时使用此token请求</span><br><span class="line">&#125;</span><br><span class="line">"errMsg":"邮箱已被使用！"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a>用户登录</h3><p>GET /users/login?user=&amp;pwd=</p>
+<h5 id="请求参数说明-1"><a href="#请求参数说明-1" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user</td>
+<td>string</td>
+<td>Y</td>
+<td>注册邮箱或者用户名</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，明文密码</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-1"><a href="#返回值说明-1" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //0=失败，1=登录成功,2=登录成功且需要更改密码</span><br><span class="line">"data":&#123;</span><br><span class="line">"mid": 123,</span><br><span class="line">"email": "foo@bar.com",</span><br><span class="line">"username": "八宝山趐臀颜王",</span><br><span class="line">"token": "xxx00yyyzzz",//访问其他信息时使用此token请求</span><br><span class="line">&#125;</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="找回密码"><a href="#找回密码" class="headerlink" title="找回密码"></a>找回密码</h3><p>GET /users/forget?username=&amp;email=</p>
+<h5 id="请求参数说明-2"><a href="#请求参数说明-2" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名，必须和邮箱一直，发送临时密码的邮件到这个邮箱</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-2"><a href="#返回值说明-2" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="更改密码"><a href="#更改密码" class="headerlink" title="更改密码"></a>更改密码</h3><p>GET /users/changepwd?username=&amp;email=&amp;newpwd=</p>
+<h5 id="请求参数说明-3"><a href="#请求参数说明-3" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
 </tr>
 <tr>
 <td>username</td>
@@ -366,15 +451,194 @@
 <td>用户名</td>
 </tr>
 <tr>
-<td>pwd</td>
+<td>newpwd</td>
 <td>string</td>
 <td>Y</td>
-<td>用户密码，要求md5加密</td>
+<td>新的密码，明文密码，服务器加密存到数据库</td>
 </tr>
 </tbody>
 </table>
-<h5 id="返回值说明"><a href="#返回值说明" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	"code": 1 //1-sucess,0=failed</span><br><span class="line">	"data":&#123;</span><br><span class="line">		"mid": 123, </span><br><span class="line">    	"email": "http://abc.com/default.jpg",</span><br><span class="line">    	"username": "八宝山趐臀颜王",</span><br><span class="line">    	"accessToken": "xxx00yyyzzz",//访问其他信息时使用此token请求</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果code为0，表示注册失败<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	"code": 0 //1-sucess,0=failed</span><br><span class="line">	"msg":"email has been used!"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="返回值说明-3"><a href="#返回值说明-3" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="编辑资料"><a href="#编辑资料" class="headerlink" title="编辑资料"></a>编辑资料</h3><p>GET /users/editprofile?username=&amp;email=&amp;phone=&amp;pwd=</p>
+<h5 id="请求参数说明-4"><a href="#请求参数说明-4" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>Y</td>
+<td>手机号</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>明文密码</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-4"><a href="#返回值说明-4" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"邮箱已存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="注销账户"><a href="#注销账户" class="headerlink" title="注销账户"></a>注销账户</h3><p>GET /users/delete?pwd=&amp;email=&amp;reason=</p>
+<h5 id="请求参数说明-5"><a href="#请求参数说明-5" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，明文密码</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>string</td>
+<td>Y</td>
+<td>注销账号的原因</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-5"><a href="#返回值说明-5" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="获取用户积分"><a href="#获取用户积分" class="headerlink" title="获取用户积分"></a>获取用户积分</h3><p>GET /shop/account?token=</p>
+<h5 id="请求参数说明-6"><a href="#请求参数说明-6" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-6"><a href="#返回值说明-6" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"count": 100</span><br><span class="line">"errMsg":"foo bar"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="获取用户积分消费明细"><a href="#获取用户积分消费明细" class="headerlink" title="获取用户积分消费明细"></a>获取用户积分消费明细</h3><p>GET /shop/accountdetail?token=&amp;start=&amp;limit=</p>
+<h5 id="请求参数说明-7"><a href="#请求参数说明-7" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+<tr>
+<td>start</td>
+<td>int</td>
+<td>Y</td>
+<td>上一次获得的交易记录列表最后一条的id，第一次请求为0</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Y</td>
+<td>请求数据的条数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-7"><a href="#返回值说明-7" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"code"</span>: <span class="number">1</span> //<span class="number">0</span>=失败，<span class="number">1</span>=成功</span><br><span class="line"><span class="string">"data"</span>:&#123;</span><br><span class="line"><span class="attr">"count"</span>:<span class="number">100</span></span><br><span class="line"><span class="string">"list"</span>: [</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"aid"</span>: <span class="number">123</span>,</span><br><span class="line"><span class="attr">"location"</span>: <span class="string">"北京市"</span>,</span><br><span class="line"><span class="attr">"date"</span>: <span class="string">"2017-12-30"</span>,</span><br><span class="line"><span class="attr">"price"</span>: <span class="number">12</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"aid"</span>: <span class="number">344</span>,</span><br><span class="line"><span class="attr">"location"</span>: <span class="string">"天津市"</span>,</span><br><span class="line"><span class="attr">"date"</span>: <span class="string">"2017-11-30"</span>,</span><br><span class="line"><span class="attr">"price"</span>: <span class="number">22</span></span><br><span class="line">&#125;,</span><br><span class="line">.......</span><br><span class="line">]</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">"errMsg"</span>:<span class="string">"foo"</span></span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="获取商品列表"><a href="#获取商品列表" class="headerlink" title="获取商品列表"></a>获取商品列表</h3><p>GET /shop/goods?token=&amp;start=&amp;limit=</p>
+<h5 id="请求参数说明-8"><a href="#请求参数说明-8" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+<tr>
+<td>start</td>
+<td>int</td>
+<td>Y</td>
+<td>上一次获得的交易记录列表最后一条的id，第一次请求为0</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Y</td>
+<td>请求数据的条数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-8"><a href="#返回值说明-8" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"code"</span>: <span class="number">1</span> //<span class="number">0</span>=失败，<span class="number">1</span>=成功</span><br><span class="line"><span class="string">"data"</span>: [</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"gid"</span>: <span class="number">123</span>,</span><br><span class="line"><span class="attr">"title"</span>: <span class="string">"手机壳"</span>,</span><br><span class="line"><span class="attr">"picurlstr"</span>: <span class="string">"http://baidu.com/hotdog.jpg"</span>,</span><br><span class="line"><span class="attr">"description"</span>: <span class="string">"十块钱你卖不了吃亏卖不了上当"</span>,</span><br><span class="line">"price": 12,//价格</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"gid"</span>: <span class="number">44</span>,</span><br><span class="line"><span class="attr">"title"</span>: <span class="string">"避孕套"</span>,</span><br><span class="line"><span class="attr">"picurlstr"</span>: <span class="string">"http://baidu.com/hotdog.jpg"</span>,</span><br><span class="line"><span class="attr">"description"</span>: <span class="string">"十块钱你卖不了吃亏卖不了上当"</span>,</span><br><span class="line">"price": 22,//价格</span><br><span class="line">&#125;,</span><br><span class="line">.......</span><br><span class="line">]</span><br><span class="line">"errMsg":"foo"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="兑换商品"><a href="#兑换商品" class="headerlink" title="兑换商品"></a>兑换商品</h3><p>GET /shop/pay?token=&amp;goodsid=</p>
+<h5 id="请求参数说明-9"><a href="#请求参数说明-9" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+<tr>
+<td>goodsid</td>
+<td>string</td>
+<td>Y</td>
+<td>商品的id</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-9"><a href="#返回值说明-9" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"foo bar"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -553,7 +817,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jatin留学生作业API接口-V1-0"><span class="nav-number">1.</span> <span class="nav-text"><a href="#jatin&#x7559;&#x5B66;&#x751F;&#x4F5C;&#x4E1A;API&#x63A5;&#x53E3;-V1-0" class="headerlink" title="jatin&#x7559;&#x5B66;&#x751F;&#x4F5C;&#x4E1A;API&#x63A5;&#x53E3;_V1.0"></a>jatin&#x7559;&#x5B66;&#x751F;&#x4F5C;&#x4E1A;API&#x63A5;&#x53E3;_V1.0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户需求：要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x5BA2;&#x6237;&#x9700;&#x6C42;&#xFF1A;&#x8981;&#x6C42;&#x670D;&#x52A1;&#x5668;&#x4F7F;&#x7528;PHP&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;swift&#xFF0C;&#x6700;&#x8FDF;2&#x6708;&#x524D;&#x5B8C;&#x6210;&#xFF0C;&#x671F;&#x671B;&#x5C3D;&#x5FEB;&#x5B8C;&#x6210;&#x3002;" class="headerlink" title="&#x5BA2;&#x6237;&#x9700;&#x6C42;&#xFF1A;&#x8981;&#x6C42;&#x670D;&#x52A1;&#x5668;&#x4F7F;&#x7528;PHP&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;swift&#xFF0C;&#x6700;&#x8FDF;2&#x6708;&#x524D;&#x5B8C;&#x6210;&#xFF0C;&#x671F;&#x671B;&#x5C3D;&#x5FEB;&#x5B8C;&#x6210;&#x3002;"></a>&#x5BA2;&#x6237;&#x9700;&#x6C42;&#xFF1A;&#x8981;&#x6C42;&#x670D;&#x52A1;&#x5668;&#x4F7F;&#x7528;PHP&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;swift&#xFF0C;&#x6700;&#x8FDF;2&#x6708;&#x524D;&#x5B8C;&#x6210;&#xFF0C;&#x671F;&#x671B;&#x5C3D;&#x5FEB;&#x5B8C;&#x6210;&#x3002;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原生广告"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#&#x539F;&#x751F;&#x5E7F;&#x544A;" class="headerlink" title="&#x539F;&#x751F;&#x5E7F;&#x544A;"></a>&#x539F;&#x751F;&#x5E7F;&#x544A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明"><span class="nav-number">1.1.1.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明"><span class="nav-number">1.1.1.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jatin留学生作业API接口-V1-0"><span class="nav-number">1.</span> <span class="nav-text"><a href="#jatin&#x7559;&#x5B66;&#x751F;&#x4F5C;&#x4E1A;API&#x63A5;&#x53E3;-V1-0" class="headerlink" title="jatin&#x7559;&#x5B66;&#x751F;&#x4F5C;&#x4E1A;API&#x63A5;&#x53E3;_V1.0"></a>jatin&#x7559;&#x5B66;&#x751F;&#x4F5C;&#x4E1A;API&#x63A5;&#x53E3;_V1.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#邮箱注册"><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#&#x90AE;&#x7BB1;&#x6CE8;&#x518C;" class="headerlink" title="&#x90AE;&#x7BB1;&#x6CE8;&#x518C;"></a>&#x90AE;&#x7BB1;&#x6CE8;&#x518C;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户登录"><span class="nav-number">1.0.2.</span> <span class="nav-text"><a href="#&#x7528;&#x6237;&#x767B;&#x5F55;" class="headerlink" title="&#x7528;&#x6237;&#x767B;&#x5F55;"></a>&#x7528;&#x6237;&#x767B;&#x5F55;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-1"><span class="nav-number">1.0.2.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-1" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-1"><span class="nav-number">1.0.2.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-1" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#找回密码"><span class="nav-number">1.0.3.</span> <span class="nav-text"><a href="#&#x627E;&#x56DE;&#x5BC6;&#x7801;" class="headerlink" title="&#x627E;&#x56DE;&#x5BC6;&#x7801;"></a>&#x627E;&#x56DE;&#x5BC6;&#x7801;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-2"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-2" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-2"><span class="nav-number">1.0.3.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-2" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改密码"><span class="nav-number">1.0.4.</span> <span class="nav-text"><a href="#&#x66F4;&#x6539;&#x5BC6;&#x7801;" class="headerlink" title="&#x66F4;&#x6539;&#x5BC6;&#x7801;"></a>&#x66F4;&#x6539;&#x5BC6;&#x7801;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-3"><span class="nav-number">1.0.4.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-3" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-3"><span class="nav-number">1.0.4.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-3" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑资料"><span class="nav-number">1.0.5.</span> <span class="nav-text"><a href="#&#x7F16;&#x8F91;&#x8D44;&#x6599;" class="headerlink" title="&#x7F16;&#x8F91;&#x8D44;&#x6599;"></a>&#x7F16;&#x8F91;&#x8D44;&#x6599;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-4"><span class="nav-number">1.0.5.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-4" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-4"><span class="nav-number">1.0.5.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-4" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注销账户"><span class="nav-number">1.0.6.</span> <span class="nav-text"><a href="#&#x6CE8;&#x9500;&#x8D26;&#x6237;" class="headerlink" title="&#x6CE8;&#x9500;&#x8D26;&#x6237;"></a>&#x6CE8;&#x9500;&#x8D26;&#x6237;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-5"><span class="nav-number">1.0.6.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-5" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-5"><span class="nav-number">1.0.6.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-5" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取用户积分"><span class="nav-number">1.0.7.</span> <span class="nav-text"><a href="#&#x83B7;&#x53D6;&#x7528;&#x6237;&#x79EF;&#x5206;" class="headerlink" title="&#x83B7;&#x53D6;&#x7528;&#x6237;&#x79EF;&#x5206;"></a>&#x83B7;&#x53D6;&#x7528;&#x6237;&#x79EF;&#x5206;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-6"><span class="nav-number">1.0.7.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-6" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-6"><span class="nav-number">1.0.7.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-6" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取用户积分消费明细"><span class="nav-number">1.0.8.</span> <span class="nav-text"><a href="#&#x83B7;&#x53D6;&#x7528;&#x6237;&#x79EF;&#x5206;&#x6D88;&#x8D39;&#x660E;&#x7EC6;" class="headerlink" title="&#x83B7;&#x53D6;&#x7528;&#x6237;&#x79EF;&#x5206;&#x6D88;&#x8D39;&#x660E;&#x7EC6;"></a>&#x83B7;&#x53D6;&#x7528;&#x6237;&#x79EF;&#x5206;&#x6D88;&#x8D39;&#x660E;&#x7EC6;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-7"><span class="nav-number">1.0.8.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-7" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-7"><span class="nav-number">1.0.8.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-7" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取商品列表"><span class="nav-number">1.0.9.</span> <span class="nav-text"><a href="#&#x83B7;&#x53D6;&#x5546;&#x54C1;&#x5217;&#x8868;" class="headerlink" title="&#x83B7;&#x53D6;&#x5546;&#x54C1;&#x5217;&#x8868;"></a>&#x83B7;&#x53D6;&#x5546;&#x54C1;&#x5217;&#x8868;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-8"><span class="nav-number">1.0.9.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-8" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-8"><span class="nav-number">1.0.9.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-8" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兑换商品"><span class="nav-number">1.0.10.</span> <span class="nav-text"><a href="#&#x5151;&#x6362;&#x5546;&#x54C1;" class="headerlink" title="&#x5151;&#x6362;&#x5546;&#x54C1;"></a>&#x5151;&#x6362;&#x5546;&#x54C1;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求参数说明-9"><span class="nav-number">1.0.10.0.1.</span> <span class="nav-text"><a href="#&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;-9" class="headerlink" title="&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值说明-9"><span class="nav-number">1.0.10.0.2.</span> <span class="nav-text"><a href="#&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;-9" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;"></a>&#x8FD4;&#x56DE;&#x503C;&#x8BF4;&#x660E;</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

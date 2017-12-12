@@ -252,6 +252,444 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/jatinAPI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xueyongwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛永伟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/jatinAPI/" itemprop="url">jatinAPI</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T16:10:49+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="jatin留学生作业API接口-V1-0"><a href="#jatin留学生作业API接口-V1-0" class="headerlink" title="jatin留学生作业API接口_V1.0"></a>jatin留学生作业API接口_V1.0</h1><p>###客户需求<br>要求服务器使用PHP，客户端使用swift，最迟2月前完成，期望尽快完成。<br>用户密码必须加密，连接学校提供的数据库，部署到学校提供的服务器。<br>注：需要校园内网才能连接数据库，可先建立测试数据库进行开发。</p>
+<h3 id="邮箱注册"><a href="#邮箱注册" class="headerlink" title="邮箱注册"></a>邮箱注册</h3><p>GET /users/reg?email=&amp;username=&amp;pwd=</p>
+<h5 id="请求参数说明"><a href="#请求参数说明" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册邮箱，不可重复</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名，不可重复</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，要求数据库存加密后的密码</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明"><a href="#返回值说明" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"data":&#123;</span><br><span class="line">"mid": 123,</span><br><span class="line">"email": "foo@bar.com",</span><br><span class="line">"username": "八宝山趐臀颜王",</span><br><span class="line">"token": "xxx00yyyzzz",//访问其他信息时使用此token请求</span><br><span class="line">&#125;</span><br><span class="line">"errMsg":"邮箱已被使用！"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a>用户登录</h3><p>GET /users/login?user=&amp;pwd=</p>
+<h5 id="请求参数说明-1"><a href="#请求参数说明-1" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user</td>
+<td>string</td>
+<td>Y</td>
+<td>注册邮箱或者用户名</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，明文密码</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-1"><a href="#返回值说明-1" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //0=失败，1=登录成功,2=登录成功且需要更改密码</span><br><span class="line">"data":&#123;</span><br><span class="line">"mid": 123,</span><br><span class="line">"email": "foo@bar.com",</span><br><span class="line">"username": "八宝山趐臀颜王",</span><br><span class="line">"token": "xxx00yyyzzz",//访问其他信息时使用此token请求</span><br><span class="line">&#125;</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="找回密码"><a href="#找回密码" class="headerlink" title="找回密码"></a>找回密码</h3><p>GET /users/forget?username=&amp;email=</p>
+<h5 id="请求参数说明-2"><a href="#请求参数说明-2" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名，必须和邮箱一直，发送临时密码的邮件到这个邮箱</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-2"><a href="#返回值说明-2" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="更改密码"><a href="#更改密码" class="headerlink" title="更改密码"></a>更改密码</h3><p>GET /users/changepwd?username=&amp;email=&amp;newpwd=</p>
+<h5 id="请求参数说明-3"><a href="#请求参数说明-3" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>newpwd</td>
+<td>string</td>
+<td>Y</td>
+<td>新的密码，明文密码，服务器加密存到数据库</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-3"><a href="#返回值说明-3" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="编辑资料"><a href="#编辑资料" class="headerlink" title="编辑资料"></a>编辑资料</h3><p>GET /users/editprofile?username=&amp;email=&amp;phone=&amp;pwd=</p>
+<h5 id="请求参数说明-4"><a href="#请求参数说明-4" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Y</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>Y</td>
+<td>手机号</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>明文密码</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-4"><a href="#返回值说明-4" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"邮箱已存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="注销账户"><a href="#注销账户" class="headerlink" title="注销账户"></a>注销账户</h3><p>GET /users/delete?pwd=&amp;email=&amp;reason=</p>
+<h5 id="请求参数说明-5"><a href="#请求参数说明-5" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Y</td>
+<td>注册时的邮箱</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>string</td>
+<td>Y</td>
+<td>用户密码，明文密码</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>string</td>
+<td>Y</td>
+<td>注销账号的原因</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-5"><a href="#返回值说明-5" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"用户不存在！"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="获取用户积分"><a href="#获取用户积分" class="headerlink" title="获取用户积分"></a>获取用户积分</h3><p>GET /shop/account?token=</p>
+<h5 id="请求参数说明-6"><a href="#请求参数说明-6" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-6"><a href="#返回值说明-6" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"count": 100</span><br><span class="line">"errMsg":"foo bar"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="获取用户积分消费明细"><a href="#获取用户积分消费明细" class="headerlink" title="获取用户积分消费明细"></a>获取用户积分消费明细</h3><p>GET /shop/accountdetail?token=&amp;start=&amp;limit=</p>
+<h5 id="请求参数说明-7"><a href="#请求参数说明-7" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+<tr>
+<td>start</td>
+<td>int</td>
+<td>Y</td>
+<td>上一次获得的交易记录列表最后一条的id，第一次请求为0</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Y</td>
+<td>请求数据的条数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-7"><a href="#返回值说明-7" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"code"</span>: <span class="number">1</span> //<span class="number">0</span>=失败，<span class="number">1</span>=成功</span><br><span class="line"><span class="string">"data"</span>:&#123;</span><br><span class="line"><span class="attr">"count"</span>:<span class="number">100</span></span><br><span class="line"><span class="string">"list"</span>: [</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"aid"</span>: <span class="number">123</span>,</span><br><span class="line"><span class="attr">"location"</span>: <span class="string">"北京市"</span>,</span><br><span class="line"><span class="attr">"date"</span>: <span class="string">"2017-12-30"</span>,</span><br><span class="line"><span class="attr">"price"</span>: <span class="number">12</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"aid"</span>: <span class="number">344</span>,</span><br><span class="line"><span class="attr">"location"</span>: <span class="string">"天津市"</span>,</span><br><span class="line"><span class="attr">"date"</span>: <span class="string">"2017-11-30"</span>,</span><br><span class="line"><span class="attr">"price"</span>: <span class="number">22</span></span><br><span class="line">&#125;,</span><br><span class="line">.......</span><br><span class="line">]</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">"errMsg"</span>:<span class="string">"foo"</span></span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="获取商品列表"><a href="#获取商品列表" class="headerlink" title="获取商品列表"></a>获取商品列表</h3><p>GET /shop/goods?token=&amp;start=&amp;limit=</p>
+<h5 id="请求参数说明-8"><a href="#请求参数说明-8" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+<tr>
+<td>start</td>
+<td>int</td>
+<td>Y</td>
+<td>上一次获得的交易记录列表最后一条的id，第一次请求为0</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Y</td>
+<td>请求数据的条数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-8"><a href="#返回值说明-8" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"code"</span>: <span class="number">1</span> //<span class="number">0</span>=失败，<span class="number">1</span>=成功</span><br><span class="line"><span class="string">"data"</span>: [</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"gid"</span>: <span class="number">123</span>,</span><br><span class="line"><span class="attr">"title"</span>: <span class="string">"手机壳"</span>,</span><br><span class="line"><span class="attr">"picurlstr"</span>: <span class="string">"http://baidu.com/hotdog.jpg"</span>,</span><br><span class="line"><span class="attr">"description"</span>: <span class="string">"十块钱你卖不了吃亏卖不了上当"</span>,</span><br><span class="line">"price": 12,//价格</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">"gid"</span>: <span class="number">44</span>,</span><br><span class="line"><span class="attr">"title"</span>: <span class="string">"避孕套"</span>,</span><br><span class="line"><span class="attr">"picurlstr"</span>: <span class="string">"http://baidu.com/hotdog.jpg"</span>,</span><br><span class="line"><span class="attr">"description"</span>: <span class="string">"十块钱你卖不了吃亏卖不了上当"</span>,</span><br><span class="line">"price": 22,//价格</span><br><span class="line">&#125;,</span><br><span class="line">.......</span><br><span class="line">]</span><br><span class="line">"errMsg":"foo"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="兑换商品"><a href="#兑换商品" class="headerlink" title="兑换商品"></a>兑换商品</h3><p>GET /shop/pay?token=&amp;goodsid=</p>
+<h5 id="请求参数说明-9"><a href="#请求参数说明-9" class="headerlink" title="请求参数说明"></a>请求参数说明</h5><table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REQUIRED</th>
+<th>MEMO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Y</td>
+<td>用户凭证</td>
+</tr>
+<tr>
+<td>goodsid</td>
+<td>string</td>
+<td>Y</td>
+<td>商品的id</td>
+</tr>
+</tbody>
+</table>
+<h5 id="返回值说明-9"><a href="#返回值说明-9" class="headerlink" title="返回值说明"></a>返回值说明</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;</span><br><span class="line">&#123;</span><br><span class="line">"code": 1 //1-成功,0=失败</span><br><span class="line">"errMsg":"foo bar"</span><br><span class="line">&#125;</span><br><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -417,14 +855,32 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
