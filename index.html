@@ -252,6 +252,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/UITableViewCell选中后分割线消失问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xueyongwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛永伟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/16/UITableViewCell选中后分割线消失问题/" itemprop="url">UITableViewCell选中后分割线消失问题</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T18:52:50+08:00">
+                2018-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="问题：分割线消失了"><a href="#问题：分割线消失了" class="headerlink" title="问题：分割线消失了"></a>问题：分割线消失了</h5><p>遇到一个问题，需求是tableview在编辑模式可以多选cell，多选时没有选中背景色，但是有选中按钮🔘。非编辑状态有选中style为灰色。结果发现在选中某个cell时，cell上的分割线消失了。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-b646336a7205d6af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="消失的分割线"></p>
+<p>自定义cell的时候，我是这么做的，首先将tableView的系统分割线去除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];</span><br></pre></td></tr></table></figure>
+<p>然后在cell的初始化方法中自定义了一个UIView，并加到了contentView的底部。其中分割线高度，有些是要求是1像素（不是一个点），所以可以使用 1.0/UIScreen.main.scale 表示一个像素的高度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">UIView *line = [UIView new];</span><br><span class="line">[line setBackgroundColor:[UIColor greenColor]];</span><br><span class="line">[self.contentView addSubview:line];</span><br><span class="line">[line mas_makeConstraints:^(MASConstraintMaker *make)&#123;</span><br><span class="line">make.left.equalTo(self.contentView);</span><br><span class="line">make.right.equalTo(self.contentView);</span><br><span class="line">make.height.mas_equalTo(@1);</span><br><span class="line">make.bottom.equalTo(self.contentView);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>再然后设置了cell的选中背景为透明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UIView *v = [UIView new];</span><br><span class="line">[v setBackgroundColor:[UIColor clearColor]];</span><br><span class="line">[self setSelectedBackgroundView:v];</span><br></pre></td></tr></table></figure>
+<p>完美实现，既可以自定义分割线，又可以自定义选中背景颜色，很灵活。</p>
+<h5 id="分析：消失的原因"><a href="#分析：消失的原因" class="headerlink" title="分析：消失的原因"></a>分析：消失的原因</h5><p>但是，为什么选中后分割线消失了？而且只是分割线消失了，cell上的其他label、button都还在。<br>看视图的层次图，发现并不是SelectedBackgroundView挡住了分割线，也不是约束问题导致分割线被挤出了可视范围。<br>首先是觉得SelectedBackgroundView出了问题，就自定义SelectedBackgroundView为带有分割线的view，再设置为SelectedBackgroundView，发现问题解决了。<br><strong>然而</strong>，分割线在编辑状态和非编辑状态的leading约束是不一样的，手动设置55（40+15，原cell的分割线leading是15）发现iPhone上可以对齐，但是在ipad上测试是发现了其他问题：有些cell上分割线还是消失了。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-d182292c8ac8386c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="失灵的解决方法"></p>
+<p>很显然，解决问题的方向错了。<br>我故意加了另一个很大的很蓝的view，看是否还不显示。结果这个很大很蓝的view在选中时仍不显示。再次查看层次图，放大发现被选中的cell的分割线背景色是w:0 a:0，其他cell的是正常的。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-c4c7bb11e797d2de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="背景色没了"><br>OK，还是百度一下，原来并非是分割线消失了，而是contentView上所有的view的背景颜色被清除了，或者说被设置成透明了。包括UIView以及所有基于UIView的UILabel等。</p>
+<h5 id="分析：解决方法"><a href="#分析：解决方法" class="headerlink" title="分析：解决方法"></a>分析：解决方法</h5><p>那如何解决该问题？既然在选中的时候被系统清空了cell上的view的背景色，那么只需要再设置回来就好了。<br><strong>1. 重写cell的setSelected方法，恢复分割线的颜色</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(void)setSelected:(BOOL)selected animated:(BOOL)animated &#123;</span><br><span class="line">[super setSelected:selected animated:animated];</span><br><span class="line">[line setBackgroundColor:[UIColor greenColor]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法就更加灵活了，还可以根据你的选中状态，分别设置不同的颜色。</p>
+<p>那么问题来了，既然是选中时，系统默认清除了所有子控件的背景色，那么我不实现父类的方法可不可以？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(void)setSelected:(BOOL)selected animated:(BOOL)animated &#123;</span><br><span class="line">//[super setSelected:selected animated:animated];</span><br><span class="line">//我不实现super的选中方法，那是不是就不会自动清除颜色了呢？</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果证明我依旧想多了。不实现super的选中方法，cell将不会保持选择状态，但是点上去的时候，依旧会清除掉子控件的背景色。</p>
+<blockquote>
+<p>有人说把分割线加在cell上而不是contentview上可以解决，实际测试结果：直接加在cell上仍然是会被清除背景色</p>
+</blockquote>
+<p><strong>2. 使用imageView</strong><br>创建一个imageView，让UI给图，或者通过颜色创建一个图片，设置imageView的图片，就不存在由于背景色被清理而没有分割线的问题了。<br><strong>3. 给这个分割线单独定义个类</strong><br>比如:GlobleSeparatorLine,只需要在xib或者storyboard里，更改分割线的类型为GlobleSeparatorLine。然后重写layoutSubviews,在方法里设置背景颜色即可。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/WKWebview：JS交互、Cookie的注入与清除/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -743,7 +903,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -765,7 +925,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
