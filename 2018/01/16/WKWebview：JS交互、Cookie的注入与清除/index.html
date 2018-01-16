@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="xueyongwei blog" />
+  <meta name="keywords" content="WkWebview,swift,oc," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="北漂的一枚iOS开发者，在学习的路上不断探索中。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="薛永伟">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="一. WKWebView与JS交互首先使用WKWebView.你需要导入WebKit。关于WKWebView其他基础使用不在本篇研究范围。 1. iOS端执行一段js代码。使用12345```//OC代码[webView evaluateJavaScript:jsStr completionHandler:^(id _Nullable response, NSError * _Nullable e">
+<meta name="keywords" content="WkWebview,swift,oc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WKWebview：JS交互、Cookie的注入与清除">
+<meta property="og:url" content="http://yoursite.com/2018/01/16/WKWebview：JS交互、Cookie的注入与清除/index.html">
 <meta property="og:site_name" content="薛永伟">
-<meta property="og:description" content="北漂的一枚iOS开发者，在学习的路上不断探索中。">
+<meta property="og:description" content="一. WKWebView与JS交互首先使用WKWebView.你需要导入WebKit。关于WKWebView其他基础使用不在本篇研究范围。 1. iOS端执行一段js代码。使用12345```//OC代码[webView evaluateJavaScript:jsStr completionHandler:^(id _Nullable response, NSError * _Nullable e">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-16T03:26:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="薛永伟">
-<meta name="twitter:description" content="北漂的一枚iOS开发者，在学习的路上不断探索中。">
+<meta name="twitter:title" content="WKWebview：JS交互、Cookie的注入与清除">
+<meta name="twitter:description" content="一. WKWebView与JS交互首先使用WKWebView.你需要导入WebKit。关于WKWebView其他基础使用不在本篇研究范围。 1. iOS端执行一段js代码。使用12345```//OC代码[webView evaluateJavaScript:jsStr completionHandler:^(id _Nullable response, NSError * _Nullable e">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/16/WKWebview：JS交互、Cookie的注入与清除/"/>
 
 
 
 
 
-  <title>薛永伟</title>
+  <title>WKWebview：JS交互、Cookie的注入与清除 | 薛永伟</title>
   
 
 
@@ -143,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,9 +238,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -269,9 +270,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/16/WKWebview：JS交互、Cookie的注入与清除/" itemprop="url">WKWebview：JS交互、Cookie的注入与清除</a></h2>
+          <h2 class="post-title" itemprop="name headline">WKWebview：JS交互、Cookie的注入与清除</h2>
         
 
         <div class="post-meta">
@@ -343,9 +342,7 @@
       
 
       
-        
-          
-            <h4 id="一-WKWebView与JS交互"><a href="#一-WKWebView与JS交互" class="headerlink" title="一. WKWebView与JS交互"></a>一. WKWebView与JS交互</h4><p>首先使用WKWebView.你需要导入WebKit。关于WKWebView其他基础使用不在本篇研究范围。</p>
+        <h4 id="一-WKWebView与JS交互"><a href="#一-WKWebView与JS交互" class="headerlink" title="一. WKWebView与JS交互"></a>一. WKWebView与JS交互</h4><p>首先使用WKWebView.你需要导入WebKit。关于WKWebView其他基础使用不在本篇研究范围。</p>
 <h6 id="1-iOS端执行一段js代码。"><a href="#1-iOS端执行一段js代码。" class="headerlink" title="1. iOS端执行一段js代码。"></a>1. iOS端执行一段js代码。</h6><p>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//OC代码</span><br><span class="line">[webView evaluateJavaScript:jsStr completionHandler:^(id _Nullable response, NSError * _Nullable error) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//swift代码</span><br><span class="line">webview.evaluateJavaScript(jsStr) &#123; (response, error) in</span><br><span class="line">            </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>一般使用以上方法,是在网页加载完成(<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">###### 2. 通过使用userContentController向网页注入js。</span><br><span class="line">注入的js可以取名字，将会在```WKScriptMessageHandler```的代理方法```didReceiveScriptMessage```中被回掉。</span><br></pre></td></tr></table></figure></p>
@@ -383,8 +380,6 @@
     try? FileManager.default.removeItem(atPath: cookiesFolderPath)
 </code></pre><p>//            try? NSFileManager.defaultManager().removeItemAtPath(cookiesFolderPath)<br>        }<br>    }</p>
 
-          
-        
       
     </div>
     
@@ -399,290 +394,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/iPhone-X超简单适配（适配实战）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xueyongwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="薛永伟">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/16/iPhone-X超简单适配（适配实战）/" itemprop="url">iPhone X超简单适配（适配实战）</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T11:19:01+08:00">
-                2018-01-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/WkWebview/" rel="tag"># WkWebview</a>
           
-
+            <a href="/tags/swift/" rel="tag"># swift</a>
           
-            
+            <a href="/tags/oc/" rel="tag"># oc</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[已在线上项目使用此方法适配，暂无问题出现。]<br>日常开发会经常使用xib或者sb，所以本次实验也是使用了xib或者sb。理论纯代码会更简单。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-e51e6498b55fcbbc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>新建一个sb的界面：<br><img src="http://upload-images.jianshu.io/upload_images/1966717-348de7bbe89f2f5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>一个顶部的button中间一个tableView。现在基本还需要适配iOS 8，所以更改项目支持iOS8，并且去掉”Use Safe Area Layout Guides”。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-e0ec8acc6471790b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>如果约束基于layout guides，tableView好像自动可以自动多开刘海，而顶部的button就不行了。<br>实际上，tableview多开齐刘海只是tableviewcell的contentView多开，tableviewCell仍然不在安全区域：<br><img src="http://upload-images.jianshu.io/upload_images/1966717-ef0f2ce564efbca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>直接在tableViewCell上添加一个测试的label：<br><img src="http://upload-images.jianshu.io/upload_images/1966717-3fad7331769a0b07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>显然这个tableView并不安全（上面cell内容之所以躲开了刘海，是contentView调整了自己的布局）。<br>解决这个问题，使用<figure class="highlight plain"><figcaption><span>OR layout Guides)到.m文件中，然后在```viewSafeAreaInsetsDidChange```判断是否支持safeAreaInsets，然后更新这个约束即可。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//OC</span><br><span class="line">-(void)viewSafeAreaInsetsDidChange</span><br><span class="line">&#123;</span><br><span class="line">    [super viewSafeAreaInsetsDidChange];</span><br><span class="line">    if ([UIDevice currentDevice].systemVersion.doubleValue&gt;10.0) &#123;</span><br><span class="line">        self.topConst.constant = self.view.safeAreaInsets.top;</span><br><span class="line">        self.leadingConst.constant = self.view.safeAreaInsets.left;</span><br><span class="line">        self.trallingConst.constant = self.view.safeAreaInsets.right;</span><br><span class="line">        self.bottomConst.constant = self.view.safeAreaInsets.bottom;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//swift</span><br><span class="line">override func viewSafeAreaInsetsDidChange() &#123;</span><br><span class="line">        if #available(iOS 11, *)&#123;</span><br><span class="line">            super.viewSafeAreaInsetsDidChange()</span><br><span class="line">            self.topConst.constant = self.view.safeAreaInsets.top;</span><br><span class="line">            self.leadingConst.constant = self.view.safeAreaInsets.left;</span><br><span class="line">            self.trallingConst.constant = self.view.safeAreaInsets.right;</span><br><span class="line">            self.bottomConst.constant = self.view.safeAreaInsets.bottom;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1966717-45b1cefb5e76cd9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="躲开了刘海"></p>
-<figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如果是一个复杂的view，比如</span><br><span class="line">![复杂的界面](http://upload-images.jianshu.io/upload_images/1966717-b97c51c692201824.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">在这里就要拖动所有和```self.view```这个```view```相关的约束，然后在```viewSafeAreaInsetsDidChange```方法里进行修改约束。</span><br><span class="line">既然iOS9之前是没有```safeArea```，那咱们自己加一个*safeView*吧。。。</span><br><span class="line">![safeView](http://upload-images.jianshu.io/upload_images/1966717-15ee323a98fe7b06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">1. 新建一个view，取名为safeView，safeView的约束，**基于LayoutGuide**，然后safeView的上下左右均为0.</span><br><span class="line">2. 此view上所有的view都不再放在self.view上，而是self.safeView上。</span><br><span class="line">3. 在viewSafeAreaInsetsDidChange修改safeView的约束即可。</span><br><span class="line"></span><br><span class="line">如果是使用Snapkit，则remake约束即可:</span><br></pre></td></tr></table></figure>
-<p>override func viewSafeAreaInsetsDidChange() {<br>        if #available(iOS 11.0, *) {<br>            super.viewSafeAreaInsetsDidChange()<br>            let safeArea = self.view.safeAreaInsets<br>            self.tableView.snp.remakeConstraints { (make) in<br>            make.bottom.top.equalToSuperview()<br>            make.leading.equalTo(safeArea.left)<br>            make.top.equalTo(safeArea.top)<br>            make.tralling.equalTo(-safeArea.right)<br>        } else {<br>            // Fallback on earlier versions<br>        }<br>    }<br>```<br>OC使用masonry则同理。</p>
-<p>遇到tableView需要底部不用躲避在iPhoneX上的小黑线，则在<code>viewSafeAreaInsetsDidChange</code>里底部约束为0而不是safeArea。<br>适配使用了autoLayout的老项目，同样适用此方法，稍微麻烦点。<br>如果需要适配横竖屏，且使用frame布局的，我恐怕你应该考虑跳槽了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xueyongwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="薛永伟">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/06/hello-world/" itemprop="url">Hello World</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T10:52:48+08:00">
-                2017-12-06
-              </time>
+              <a href="/2018/01/16/iPhone-X超简单适配（适配实战）/" rel="next" title="iPhone X超简单适配（适配实战）">
+                <i class="fa fa-chevron-left"></i> iPhone X超简单适配（适配实战）
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -692,10 +437,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -703,6 +449,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -723,8 +473,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -790,6 +549,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一-WKWebView与JS交互"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;-WKWebView&#x4E0E;JS&#x4EA4;&#x4E92;" class="headerlink" title="&#x4E00;. WKWebView&#x4E0E;JS&#x4EA4;&#x4E92;"></a>&#x4E00;. WKWebView&#x4E0E;JS&#x4EA4;&#x4E92;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-iOS端执行一段js代码。"><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#1-iOS&#x7AEF;&#x6267;&#x884C;&#x4E00;&#x6BB5;js&#x4EE3;&#x7801;&#x3002;" class="headerlink" title="1. iOS&#x7AEF;&#x6267;&#x884C;&#x4E00;&#x6BB5;js&#x4EE3;&#x7801;&#x3002;"></a>1. iOS&#x7AEF;&#x6267;&#x884C;&#x4E00;&#x6BB5;js&#x4EE3;&#x7801;&#x3002;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-在网页里，使用js代码进行与原生交互。"><span class="nav-number">1.0.2.</span> <span class="nav-text"><a href="#3-&#x5728;&#x7F51;&#x9875;&#x91CC;&#xFF0C;&#x4F7F;&#x7528;js&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x4E0E;&#x539F;&#x751F;&#x4EA4;&#x4E92;&#x3002;" class="headerlink" title="3. &#x5728;&#x7F51;&#x9875;&#x91CC;&#xFF0C;&#x4F7F;&#x7528;js&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x4E0E;&#x539F;&#x751F;&#x4EA4;&#x4E92;&#x3002;"></a>3. &#x5728;&#x7F51;&#x9875;&#x91CC;&#xFF0C;&#x4F7F;&#x7528;js&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x4E0E;&#x539F;&#x751F;&#x4EA4;&#x4E92;&#x3002;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-原生处理js内容。"><span class="nav-number">1.0.3.</span> <span class="nav-text"><a href="#4-&#x539F;&#x751F;&#x5904;&#x7406;js&#x5185;&#x5BB9;&#x3002;" class="headerlink" title="4. &#x539F;&#x751F;&#x5904;&#x7406;js&#x5185;&#x5BB9;&#x3002;"></a>4. &#x539F;&#x751F;&#x5904;&#x7406;js&#x5185;&#x5BB9;&#x3002;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-原生调用js方法。"><span class="nav-number">1.0.4.</span> <span class="nav-text"><a href="#5-&#x539F;&#x751F;&#x8C03;&#x7528;js&#x65B9;&#x6CD5;&#x3002;" class="headerlink" title="5. &#x539F;&#x751F;&#x8C03;&#x7528;js&#x65B9;&#x6CD5;&#x3002;"></a>5. &#x539F;&#x751F;&#x8C03;&#x7528;js&#x65B9;&#x6CD5;&#x3002;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二-WKWebView的cookie注入与清除"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;-WKWebView&#x7684;cookie&#x6CE8;&#x5165;&#x4E0E;&#x6E05;&#x9664;" class="headerlink" title="&#x4E8C;. WKWebView&#x7684;cookie&#x6CE8;&#x5165;&#x4E0E;&#x6E05;&#x9664;"></a>&#x4E8C;. WKWebView&#x7684;cookie&#x6CE8;&#x5165;&#x4E0E;&#x6E05;&#x9664;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-在webview发起请求的时候附带cookie。"><span class="nav-number">2.0.1.</span> <span class="nav-text"><a href="#1-&#x5728;webview&#x53D1;&#x8D77;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#x9644;&#x5E26;cookie&#x3002;" class="headerlink" title="1. &#x5728;webview&#x53D1;&#x8D77;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#x9644;&#x5E26;cookie&#x3002;"></a>1. &#x5728;webview&#x53D1;&#x8D77;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#x9644;&#x5E26;cookie&#x3002;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-在webview创建的时候js注入cookie。"><span class="nav-number">2.0.2.</span> <span class="nav-text"><a href="#2-&#x5728;webview&#x521B;&#x5EFA;&#x7684;&#x65F6;&#x5019;js&#x6CE8;&#x5165;cookie&#x3002;" class="headerlink" title="2. &#x5728;webview&#x521B;&#x5EFA;&#x7684;&#x65F6;&#x5019;js&#x6CE8;&#x5165;cookie&#x3002;"></a>2. &#x5728;webview&#x521B;&#x5EFA;&#x7684;&#x65F6;&#x5019;js&#x6CE8;&#x5165;cookie&#x3002;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-在webview加载内容时js注入cookie。"><span class="nav-number">2.0.3.</span> <span class="nav-text"><a href="#3-&#x5728;webview&#x52A0;&#x8F7D;&#x5185;&#x5BB9;&#x65F6;js&#x6CE8;&#x5165;cookie&#x3002;" class="headerlink" title="3. &#x5728;webview&#x52A0;&#x8F7D;&#x5185;&#x5BB9;&#x65F6;js&#x6CE8;&#x5165;cookie&#x3002;"></a>3. &#x5728;webview&#x52A0;&#x8F7D;&#x5185;&#x5BB9;&#x65F6;js&#x6CE8;&#x5165;cookie&#x3002;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-清理注入的cookie。"><span class="nav-number">2.0.4.</span> <span class="nav-text"><a href="#4-&#x6E05;&#x7406;&#x6CE8;&#x5165;&#x7684;cookie&#x3002;" class="headerlink" title="4. &#x6E05;&#x7406;&#x6CE8;&#x5165;&#x7684;cookie&#x3002;"></a>4. &#x6E05;&#x7406;&#x6CE8;&#x5165;&#x7684;cookie&#x3002;</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -930,6 +705,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
