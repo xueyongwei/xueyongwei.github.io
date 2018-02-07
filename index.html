@@ -252,6 +252,386 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/07/你真的了解iOS中控制器的present和dismiss吗？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xueyongwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛永伟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/你真的了解iOS中控制器的present和dismiss吗？/" itemprop="url">你真的了解iOS中控制器的present和dismiss吗？</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T19:02:26+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="一、了解present和dismiss"><a href="#一、了解present和dismiss" class="headerlink" title="一、了解present和dismiss"></a>一、了解present和dismiss</h5><p>一个iOS开发，这个控制器的打开和关闭，应该是接触UIKit所接触的第一个关于UIViewController的API，然而，你真的了解它吗？<br>同样的，本文默认你已经了解UIViewController的present和dismis方法，并多次运用。另外本文不再加OC语言的代码，毕竟都能读得懂swift。</p>
+<h5 id="二、谁来调用dismiss方法？"><a href="#二、谁来调用dismiss方法？" class="headerlink" title="二、谁来调用dismiss方法？"></a>二、谁来调用dismiss方法？</h5><p>咱们从最基本的开始：一个控制器A，和一个控制器B。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-6347991baf2aa0f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A present B"><br>让A打开B，在A中是这样写:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//A</span><br><span class="line">let B = ViewController()</span><br><span class="line">self.present(B, animated: true, completion: nil)</span><br></pre></td></tr></table></figure></p>
+<p>在B中需要关闭B的时候在B中这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//B</span><br><span class="line">self.dismiss(animated: true, completion: nil)</span><br></pre></td></tr></table></figure></p>
+<p>难道？这样写有问题？这….可能大多数开发者都是这么写，也没有出现过什么问题。但是…<br>YES，这样写在“理论”讲，是<strong>错误</strong>的。<br>别急，在实际上，这么写大多数情况是没有问题的，因为iOS系统帮我们做了很多。</p>
+<h5 id="三、presentingViewController和presentedViewController"><a href="#三、presentingViewController和presentedViewController" class="headerlink" title="三、presentingViewController和presentedViewController"></a>三、presentingViewController和presentedViewController</h5><p>想了解为什么说那么写在“理论上”是错误的，先从presentingViewController和presentedViewController说起。</p>
+<p>为了不使本文枯燥，不引用大段描述和说明，只针对案例解释。当从A中弹出B后：</p>
+<ol>
+<li>self.presentingViewController: 在A中，就是nil；在B中，就是A</li>
+<li>self.presentedViewController：在A中，就是B；在B中，就是nil</li>
+</ol>
+<p>那为什么说在B中调用dismiss在“理论上”是错的呢？因为有这么一个规则一定要记住！</p>
+<blockquote>
+<p>谁污染，谁治理！</p>
+</blockquote>
+<p>很熟悉对不对？MRC的法则，谁创建谁释放！所以A打开了B，当然是A来负责关闭！</p>
+<p>正确写法是在A里调用self.dismiss(animated: true, completion: nil)</p>
+<p>等等，之前都是B里调用？没错，dismiss方法系统会自动优化，当B视图控制器调用dismiss时，它并没有打开任何界面，就将dismissViewController方法会自动交给B的presentingViewController执行，也就是A来执行。<br>如果现在A没有打开B的话，调用dismissViewController时它没有presentedViewController，转交给它的presentingViewController，但是它也没有presentingViewController，所以dismiss就不执行了。swift中可选型能很好的解释了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.presentingViewController?.dismiss(animated: true, completion: nil) //presentingViewController为nil，后面的不执行</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>扩展：关于实例为空的时候方法不执行，可百度“iOS消息转发”了解。</p>
+</blockquote>
+<p><strong>既然这样，说这个有毛用？</strong><br>如果你从A打开了B，从B打开了C，现在怎么直接回到A？<br>你很可能会通过一些手段让B执行dismiss方法，但你会得到<strong>错误</strong>的结果，因为你这里如果交给B执行dismiss方法，和直接在C里面执行dismiss方法的效果是一样的，也就是说你到了B的界面并没有到A。<br>SO，dismiss方法必须让需要回到的这个控制器来执行。那么一个控制器的presentingViewController一定是打开它的那个控制器吗？继续往后看。</p>
+<h5 id="四、presentingViewController是打开它的那个控制器吗？"><a href="#四、presentingViewController是打开它的那个控制器吗？" class="headerlink" title="四、presentingViewController是打开它的那个控制器吗？"></a>四、presentingViewController是打开它的那个控制器吗？</h5><p>从上文，A打开了B，A是B的presentingViewController，那是不是所有的控制器的presentingViewController都是调用presnet方法打开自己的那个控制器呢？<br><strong>NO！</strong>但是刚才A打开了B，不是说A是B的presentingViewController吗？当然，不是说一个控制器A弹出一个控制器B，A就一定是B的presentingViewController。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-2b16f648d346a624.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="吃屁吧你"></p>
+<p>别着急，看几个图片娱乐一下：<br><img src="http://upload-images.jianshu.io/upload_images/1966717-054b2ffbe1f7358a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="第一种"><br>这时箭头指向的控制器的presenting是谁？<br><img src="http://upload-images.jianshu.io/upload_images/1966717-40f1c832cdc313e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="第二种"><br>这时箭头指向的控制器的presenting是谁？</p>
+<p>第一个图片是navigationController，第二个是tabbarController。又跟你想的不一样了？看来你真的了解的太少，这时咱们得了解一下子控制器了。</p>
+<h5 id="四、子控制器childViewControllers"><a href="#四、子控制器childViewControllers" class="headerlink" title="四、子控制器childViewControllers"></a>四、子控制器childViewControllers</h5><p>刚才在了解presentingViewController和presentedViewController的时候，如果你用代码试了一下，会发现parentViewController(OC中，swift叫parent)，父控制器。有父就有子，每个控制器都有一个属性，叫做childViewControllers，存放它的子控制器。这里对childViewControllers的使用方法使用场景使用优势不做探讨。我们假设你了解并多次使用了子控制器来显示复杂界面的。</p>
+<p>但是实际上只要你学习iOS的UIKit，你就肯定已经多次，甚至经常使用了这个东西。<br>我们知道，在一个有导航控制器的控制器P中加入了子控制器Q，然后添加了Q的view，这个Q就可以使用self.navigationController进行跳转，Q是利用的P的导航控制器进行跳转。也就是说Q的关于控制器的操作都被P给处理了。</p>
+<p>那新加入一个问题：如果在Q中present出来一个界面R，那这个R的presentingViewController是谁呢？<br>是的，是P。此时已经出现了刚才说的问题，Q打开了R，但是R的presentingViewController却是P。这时因为Q是P的子控制器。</p>
+<p>那么就可以解释上面两个图片的结果为什么是navi控制器和tabbar控制器了。因为使用标签控制器和导航控制器，都是显示的子控制器的内容，一个带导航栏，一个带标签栏。<br>所有的控制器都有childViewControllers属性，保存了所有的子控制器，但是有些特殊的控制器，比如UIPageViewController、UINavigationController、UITabBarController等，还有一个viewControllers属性，实际内容和childViewControllers一样。这些特殊的控制器实际上不展示主要内容，主要内容由子控制器展示。<br>所以刚才说，只要你学了UIKit用了UINavigationController和UITabBarController，你就在使用childViewControllers在做界面的管理了。</p>
+<p>因此，当某个控制器有父控制器的时候，它的presentingViewController是父控制器的presentingViewController。</p>
+<p><strong>说这么多，又有毛用？</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1966717-6a2979fc09d9281a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>比如你做过转场动画，会用到这么个方法animateTransition(using transitionContext: UIViewControllerContextTransitioning)，当然你首先要做的，就是从context里获取toViewcontroller和fromViewController。如果你的这个转场是个modalPresent，此时你获取到的fromViewController可不一定是调用present的那个控制器，所以你要根据这个VC来做一些动画，可能就要有问题了。</p>
+<p>如果是带UINavigationController，需要通过nav.visibleViewController获取nav当前的控制器，如果是带UITabBarController，需要通过tab.selectedViewController获取tab当前的控制器。</p>
+<h5 id="四、如何强制指定presentingViewController就是打开自己的那个？"><a href="#四、如何强制指定presentingViewController就是打开自己的那个？" class="headerlink" title="四、如何强制指定presentingViewController就是打开自己的那个？"></a>四、如何强制指定presentingViewController就是打开自己的那个？</h5><p>我们需要了解一下这两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property(nonatomic,assign) BOOL definesPresentationContext;</span><br><span class="line">@property(nonatomic,assign) UIModalPresentationStyle modalPresentationStyle;</span><br></pre></td></tr></table></figure></p>
+<p>modalPresentationStyle属性决定了将要present的控制器以何种方式展现，默认值为UIModalTransitionStyleCoverVertical。如果把一个控制器的definesPresentationContext属性设置为YES，那么在需要进行UIModalPresentationCurrentContext类型的跳转的时候，UIKit会使用视图层级内的这个控制器来进行跳转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">avc.definesPresentationContext = false</span><br><span class="line">avc.modalPresentationStyle = .currentContext</span><br></pre></td></tr></table></figure>
+<p>大功告成！现在presentingViewController能够获取到我们期望的对象了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/07/FMDB从理论到实战-swift4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xueyongwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛永伟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/FMDB从理论到实战-swift4/" itemprop="url">FMDB从理论到实战(swift4)</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:56:30+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="理论篇"><a href="#理论篇" class="headerlink" title="理论篇"></a>理论篇</h4><p>本文默认你已经在项目中继承了FMDB，如果是swift项目，已经在swift中引入桥接文件并添加了FMDB。<br>iOS数据库常用的库有CoreData、FMDB、Realm等。对于三种方式的优缺点及速度等本文不做讨论，由于FMDB的受欢迎程度很高，本文对FMDB进行探讨和梳理。</p>
+<p>首先三种数据库操作方式的简介：</p>
+<ol>
+<li>CoreData是Apple对sqlite的封装，一种面向对象的数据库操作方式。包含<figure class="highlight plain"><figcaption><span>[认识CoreData-基础使用](https://www.jianshu.com/p/0ddfa35c7898)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">2. FMDB是开源的对sqlite的封装，使用sql语句进行对数据库的操作，灵活方便，本文主要讨论这个。了解更多[SQLite的常见问题](http://www.sqlite.org/faq.html)</span><br><span class="line">3. Realm是由Y Combinator孵化的创业团队开源出来的一款可以用于iOS(同样适用于Swift&amp;Objective-C)和Android的跨平台移动数据库。目前最新版是Realm 2.0.2，支持的平台包括Java，Objective-C，Swift，React Native，Xamarin。提供可视化工具。Realm与sqlite无关。了解更多[Realm数据库 从入门到“放弃”](https://www.jianshu.com/p/50e0efb66bdf)</span><br><span class="line"></span><br><span class="line">###### FMDB主要类</span><br><span class="line"></span><br><span class="line">1. FMDatabase－代表一个独立的SQLite数据库，执行SQL语句。</span><br><span class="line">2. FMResultSet－代表FMDatebase查询的结果集,</span><br><span class="line">3. FMDatabaseQueue－如果你想要在多线程中查询和更新，你应该使用这个类，</span><br><span class="line"></span><br><span class="line">###### FMDB创建数据库</span><br><span class="line"></span><br><span class="line">FMDatabase通过一个SQLite数据库文件的路径创建。这个路径可以有以下三种样式：</span><br><span class="line">1. 一个系统文件路径.硬盘上之前不存在的，如果它不存在，FMDB会为你新建。</span><br><span class="line">2. 一个空字符串，一个空数据库在临时文件中创建。在数据库连接关闭的时候，这个数据库会被删除。</span><br><span class="line">3. NULL(空)。一个在内存中的数据库将被创建。在数据库连接关闭的时候，这个数据库会被销毁。</span><br><span class="line">eg:</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>//OC<br>FMDatabase *db = [FMDatabase databaseWithpath:@”/tmp/tmp.db”];<br>//想了解更多关于临时或内存数据库，请阅读sqlite文档：<a href="http://www.sqlite.org/inmemorydb.html" target="_blank" rel="noopener">http://www.sqlite.org/inmemorydb.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//swift</span><br><span class="line">let db = FMDatabase.init(path: &quot;/tmp/tmp.db&quot;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="FMDB打开数据库"><a href="#FMDB打开数据库" class="headerlink" title="FMDB打开数据库"></a>FMDB打开数据库</h6><p>和数据库建立连接之前，应该确保它是打开的，在内存不足、禁止开启、创建数据库的时候会打开失败。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//OC</span><br><span class="line">if(![db open])&#123;</span><br><span class="line">//打开数据库失败</span><br><span class="line">return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//Swift</span><br><span class="line">if (db?.open())! &#123;</span><br><span class="line">//打开成功</span><br><span class="line">&#125;else&#123;</span><br><span class="line">//打开失败</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="FMDB执行更新"><a href="#FMDB执行更新" class="headerlink" title="FMDB执行更新"></a>FMDB执行更新</h6><p>除了SELECT格式的数据库执行语句都是更新。包括CREATE,UPDATE,INSERT,ALTER,COMMIT,BEGIN,DETACH,DELETE,DROP,END,EXPLAIN,VACUUM,还有replace语句等等。基本上，只要你的SQL语句不是以SELECT开头，都是更新语句。<br>执行更新使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//OC</span><br><span class="line">BOOL  sucess = [db executeUpdate:@&quot;DELETE FROM person WHERE person_id = ?&quot;,person.ID];</span><br><span class="line">if sucess &#123;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">NSLog(@&quot;执行出错了：%@&quot;,[db laseErrorMessage])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//swift</span><br><span class="line">let sql = String.init(format: &quot;DELETE FROM person WHERE person_id = %d&apos;&quot;, person.ID)</span><br><span class="line">guard let sucess = db?. executeUpdate(sql, withArgumentsIn: nil) else&#123;</span><br><span class="line">debugPrint(&quot;\(String(describing: db?.lastErrorMessage()))&quot;)</span><br><span class="line">&#125;</span><br><span class="line">if sucess &#123;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">debugPrint(&quot;执行出错了&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="FMDB执行查询"><a href="#FMDB执行查询" class="headerlink" title="FMDB执行查询"></a>FMDB执行查询</h6><p>一个SELECt语句是一个查询语句并且通过－executrQuery方法执行。<br>执行查询成功返回FMResultSet对象，失败返回nil。你应该使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为了循环访问查询结果集，你可以使用```while()```循环.你也需要从一个纪录到另一条。在FMDB中，最简单的办法是这样：</span><br></pre></td></tr></table></figure></p>
+<p>//OC<br>FMResultSet <em>s = [db executeQuery:@”SELECT </em>FROM myTable”];<br>while ([s next]){<br>//retrieve values for each record<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//swift</span><br><span class="line">let sql = &quot;SELECT *FROM myTable&quot;</span><br><span class="line">guard let result = db?.executeQuery(checksql, withArgumentsIn: nil) else &#123;</span><br><span class="line">debugPrint(&quot;\(String(describing: db?.lastErrorMessage()))&quot;)</span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">while result.next() &#123;</span><br><span class="line">//retrieve values for each record</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通常你在使用查询结果的返回值前必须先调用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//OC</span><br><span class="line">FMResultSet *s = [db executeQuery:@“SELECT COUNT(*) FROM myTable”];</span><br><span class="line"></span><br><span class="line">if ([s next]) &#123;</span><br><span class="line"></span><br><span class="line">int totalCount = [s intForColumnIndex:0];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>FMResultSet 拥有许多方法去获取适当类型的数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">intForColumn:</span><br><span class="line"></span><br><span class="line">longForColumn:</span><br><span class="line"></span><br><span class="line">longLongIntForColumn:</span><br><span class="line"></span><br><span class="line">boolForColumn:</span><br><span class="line"></span><br><span class="line">doubleForColumn:</span><br><span class="line"></span><br><span class="line">stringForColumn:</span><br><span class="line"></span><br><span class="line">dateForColumn:</span><br><span class="line"></span><br><span class="line">dataForColumn:</span><br><span class="line"></span><br><span class="line">dataNoCopyForColumn:</span><br><span class="line"></span><br><span class="line">UTF8StringForColumnName:</span><br><span class="line"></span><br><span class="line">objectForColumnName:</span><br></pre></td></tr></table></figure></p>
+<p>其中时间date类型取出时使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">这里的每一个方法都有一个对应的&#123;type&#125;ForColumnIndex:表达式。基于字段在结果集中的位置可以被用来获取数据，和字段名一一对应。</span><br><span class="line">特别的，你在这里不需要```close```一个FMResultSet，直到结果集都被释放或者父数据库关闭了。</span><br><span class="line"></span><br><span class="line">###### FMDB关闭（Close）</span><br><span class="line"></span><br><span class="line">当你完成了数据的查询和更新，你应该```close```这个FMDatabase的连接让SQLite释放那些操作过程中占用的资源。</span><br><span class="line"></span><br><span class="line">###### FMDB 事务（Transactions）</span><br><span class="line"></span><br><span class="line">FMDatabase可以通过调用合适的方法或者执行开始和结束事务型语句开始并提交一个事务。多条语句和批量添加你可以使用```FMDatabase```的```executeStatements:withResultBlock:```去做。</span><br><span class="line">一个多条SQL语句在一个字符串中:</span><br></pre></td></tr></table></figure></p>
+<p>//OC<br>NSString *sql = @”create table bulktest1 (id integer primary key autoincrement, x text);”</p>
+<p>“create table bulktest2 (id integer primary key autoincrement, y text);”</p>
+<p>“create table bulktest3 (id integer primary key autoincrement, z text);”</p>
+<p>“insert into bulktest1 (x) values (‘XXX’);”</p>
+<p>“insert into bulktest2 (y) values (‘YYY’);”</p>
+<p>“insert into bulktest3 (z) values (‘ZZZ’);”;</p>
+<p>success = [db executeStatements:sql];</p>
+<p>sql = @”select count(*) as count from bulktest1;”</p>
+<p>“select count(*) as count from bulktest2;”</p>
+<p>“select count(*) as count from bulktest3;”;</p>
+<p>success = [self.db executeStatements:sql withResultBlock:^int(NSDictionary *dictionary) {</p>
+<p>NSInteger count = [dictionary[@”count”] integerValue];</p>
+<p>XCTAssertEqual(count, 1, @”expected one record for dictionary %@”, dictionary);</p>
+<p>return 0;</p>
+<p>}];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OC中对于长字符串的处理，对每一段字符串用双引号```&quot;```括起来，可以换行，直到以分号```;```结尾，表示字符串结束。</span><br></pre></td></tr></table></figure></p>
+<p>NSString *aa = @”长字符串的第一段”<br>“这是第二段”<br>“出现分号则表示字符串结束”<br>;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">###### FMDB线程安全(FMDatabaseQueue)</span><br><span class="line"></span><br><span class="line">在多线程使用同一个FMDatabase的单例是一个坏主意。通常为每一个线程创建FMDatabase对象都是OK的，但千万不要跨线程使用数据库单例。在多线程同时使用，你可能会遇到异常或闪退。</span><br><span class="line">如果需要线程安全，用FMDatabaseQueue替代。</span><br><span class="line">实例化一个FMDatabaseQueue的单例，并且在多线程中使用这个单例，将通过队列管理，**同步执行**来自多线程的命令。</span><br><span class="line">这里是如何使用，第一步，创建你的队列。</span><br></pre></td></tr></table></figure></p>
+<p>//OC<br>FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:aPath];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//swift</span><br><span class="line">let queue = FMDatabaseQueue.init(path: aPath)</span><br></pre></td></tr></table></figure></p>
+<p>然后这样使用它：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//OC</span><br><span class="line">[queue inDatabase:^(FMDatabase *db) &#123;</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @1];</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @2];</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @3];</span><br><span class="line"></span><br><span class="line">FMResultSet *rs = [db executeQuery:@&quot;select * from foo&quot;];</span><br><span class="line"></span><br><span class="line">while ([rs next]) &#123;</span><br><span class="line"></span><br><span class="line">…</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
+<p><strong>扩展：</strong>在swift中使用queue的单例的示例代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//swift</span><br><span class="line">class DBHelper: NSObject &#123;</span><br><span class="line">static let dbQueue:FMDatabaseQueue? = &#123;</span><br><span class="line">let dbPath = XYWSandBox.getDocumentDirectory() + &quot;/114la.db&quot;</span><br><span class="line">let dbq = FMDatabaseQueue.init(path: dbPath)</span><br><span class="line">return dbq</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">//类方法，dbQueue是DBHelper单例（static）</span><br><span class="line">class func dbQueryAlldownload() -&gt; [DownloadData]&#123;</span><br><span class="line">let resultArray = [DownloadData]()</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = &quot;select * from \(self.downloadsTable) ORDER BY id Desc&quot;</span><br><span class="line">guard let result = db?.executeQuery(sql, withArgumentsIn: nil) else &#123;</span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">var resultArray = [DownloadData]()</span><br><span class="line">while result.next() &#123;</span><br><span class="line">//获取数据并创建download对象</span><br><span class="line">resultArray.append(download)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">return resultArray</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>将简单的多任务包装在一个事务中</em>，使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">//OC</span><br><span class="line">[queue inTransaction:^(FMDatabase *db, BOOL *rollback) &#123;</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @1];</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @2];</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @3];</span><br><span class="line"></span><br><span class="line">if (whoopsSomethingWrongHappened) &#123;</span><br><span class="line"></span><br><span class="line">*rollback = YES;</span><br><span class="line"></span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// etc…</span><br><span class="line"></span><br><span class="line">[db executeUpdate:@&quot;INSERT INTO myTable VALUES (?)&quot;, @4];</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//swift</span><br><span class="line">queue.inTransaction &#123; db, rollback in</span><br><span class="line">do &#123;</span><br><span class="line"></span><br><span class="line">try db.executeUpdate(&quot;INSERT INTO myTable VALUES (?)&quot;, values: [1])</span><br><span class="line"></span><br><span class="line">try db.executeUpdate(&quot;INSERT INTO myTable VALUES (?)&quot;, values: [2])</span><br><span class="line"></span><br><span class="line">try db.executeUpdate(&quot;INSERT INTO myTable VALUES (?)&quot;, values: [3])</span><br><span class="line"></span><br><span class="line">if whoopsSomethingWrongHappened &#123;</span><br><span class="line"></span><br><span class="line">rollback.pointee = true//早版本swift使用rollback.memory = true</span><br><span class="line"></span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">try db.executeUpdate(&quot;INSERT INTO myTable VALUES (?)&quot;, values: [4])</span><br><span class="line"></span><br><span class="line">&#125; catch &#123;</span><br><span class="line"></span><br><span class="line">rollback.pointee = true//早版本swift使用rollback.memory = true</span><br><span class="line"></span><br><span class="line">print(error)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>FMDatabaseQueue将在队列中顺序执行代码块中的任务，因此你可以同时调用在多线程的多FMDatabaseQueue的方法，在顺序排到的时候它们将被执行。需要注意的是，在一个queue的block中，不能再次使用queue的block。</p>
+<h4 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h4><h6 id="实战场景"><a href="#实战场景" class="headerlink" title="实战场景"></a>实战场景</h6><p>我们做一个app，这个app中可以下载网络内容，我们的下载管理界面中需要显示一些信息，那么大概需要记录下载任务的内容有：下载地址，下载文件名，文件大小，已下载大小，创建下载任务的源网页地址，创建时间。<br>我们自己也有个网站，是个说明书大全网站，因为说明书是由我们自己提供的内容，所以要能通过已下载的文件，分享这个文件的H5在线阅读的url地址，在第三方分享的时候要有封面图的远程url地址，并且在已下载文件里这个说明书可以进行“反馈”、“举报”。那么我们就需要知道这个说明书的“id”等信息。因此我们创建一个表单独记录这个说明书的信息。</p>
+<p>在此功能完成中，需要“下载管理类”、“数据库管理类”、“沙盒文件管理类”相互配合。<br>其中通过文件的下载url作为关联标识符，以此url获取下载的信息，数据的信息，以及文件路径等信息。<br>下载管理类主要负责文件的下载，暂停，恢复，断点下载等；沙盒文件管理类主要负责下载文件的管理；数据库管理类负责记录下载的信息，以及其他需要持久化的信息。</p>
+<p>因此关于下载后的文件路径地址，并不在数据库中存储，而是使用了另外的文件管理类，通过url地址等来获取相应的下载后的路径。此类不在此文探讨范围，暂且不表。</p>
+<p>下载的步骤如下：</p>
+<ol>
+<li>根据发起请求的header中的Content-Type检测打开的是个可下载文件。</li>
+<li>创建下载任务，并在下载数据表中记录这个下载。</li>
+<li>检查是否是检查网址是否来自自家网站，如果是，在说明书表中记录信息。</li>
+<li>文件下载过程更新下载数据表中的信息。</li>
+</ol>
+<p>显示步骤如下：</p>
+<ol>
+<li>从下载数据表中查询所有内容，或者根据需求查询某些内容。</li>
+<li>已下载文件的封面为各种格式的默认图，显示大小、时间等其他信息。</li>
+<li>根据下载的url从说明书数据表中查询信息。</li>
+<li>如果2没有找到说明书，不显示反馈、分享等工具栏，只显示文件的打开方式。</li>
+<li>如果2有结果，则显示此下载关于说明书的封面图等其他信息。</li>
+</ol>
+<h6 id="实战代码"><a href="#实战代码" class="headerlink" title="实战代码"></a>实战代码</h6><p>在项目应用中，个人推荐所有关于数据库的操作都放在一个类中。<br>通过swift的extension，将不同表的操作放在不同的区域，并且通过文档注释(//MARK: -)的方法，建立快速索引。<br>这样就很容易管理数据库，并且此类以外所有地方都不在与数据库交互。</p>
+<p>这里我们创建一个数据库管理类DBHelper  :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  DBManager.swift</span><br><span class="line">//  Browser</span><br><span class="line">//</span><br><span class="line">//  Created by 西方 on 2018/1/24.</span><br><span class="line">//  Copyright © 2018年 114la.com. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 数据库管理类，可在需要操作数据库的时候，通过扩展的模式添加方法，统一管理便于维护</span><br><span class="line">class DBHelper: NSObject &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 单例的dbQueue</span><br><span class="line">static let dbQueue:FMDatabaseQueue? = &#123;</span><br><span class="line">let dbPath = XYWSandBox.getDocumentDirectory() + &quot;/114la.db&quot;</span><br><span class="line">let dbq = FMDatabaseQueue.init(path: dbPath)</span><br><span class="line">return dbq</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 下载信息的表</span><br><span class="line">static let downloadsTable:String = &#123;</span><br><span class="line">return &quot;downloads&quot;</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 说明书信息的表</span><br><span class="line">static let instructionsCacheTable:String = &#123;</span><br><span class="line">return &quot;instructionsCache&quot;</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//MARK: - 下载表的数据库操作</span><br><span class="line">extension DBHelper &#123;</span><br><span class="line"></span><br><span class="line">/// 创建下载表</span><br><span class="line">class func createDownloadsTable() &#123;</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = &quot;create table if not exists \(self.downloadsTable) (id integer primary key autoincrement,url text,weburl text,title text,downloadsize long,filesize long,createtime datetime)&quot;</span><br><span class="line"></span><br><span class="line">let result = db?.executeUpdate(sql, withArgumentsIn: nil)</span><br><span class="line">if result! &#123;</span><br><span class="line">//表创建成功</span><br><span class="line">debugPrint(&quot;createDownloadsTable sucess&quot;)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">debugPrint(&quot;downloads table create faild!&quot;)</span><br><span class="line">MBProgressHUD.showFailImage(&quot;downloads table create faild!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">typealias DownloadResultCompleteHandle = ([DownloadData]) -&gt; ()</span><br><span class="line"></span><br><span class="line">/// 查询所有的下载数据</span><br><span class="line">///</span><br><span class="line">/// - Parameter complete: 完成回调</span><br><span class="line">class func quryAllDownloads(complete:@escaping DownloadResultCompleteHandle)&#123;</span><br><span class="line"></span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = &quot;select * from \(self.downloadsTable) ORDER BY id Desc&quot;</span><br><span class="line">guard let result = db?.executeQuery(sql, withArgumentsIn: nil) else &#123;</span><br><span class="line"></span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var resultArray = [DownloadData]()</span><br><span class="line">while result.next() &#123;</span><br><span class="line">let url = result.string(forColumn: &quot;url&quot;) ?? &quot;&quot;</span><br><span class="line">let webUrl = result.string(forColumn: &quot;webUrl&quot;) ?? &quot;&quot;</span><br><span class="line">let title = result.string(forColumn: &quot;title&quot;) ?? &quot;下载出错&quot;</span><br><span class="line">let downloadsize = result.double(forColumn: &quot;downloadsize&quot;)</span><br><span class="line">let filesize = result.double(forColumn: &quot;filesize&quot;)</span><br><span class="line">let createtime = result.date(forColumn: &quot;createtime&quot;)</span><br><span class="line"></span><br><span class="line">let download = DownloadData.init()</span><br><span class="line">download.url = url</span><br><span class="line">download.sourceUrl = webUrl</span><br><span class="line">download.title = title</span><br><span class="line">download.downloadsize = downloadsize</span><br><span class="line">download.filesize = filesize</span><br><span class="line">download.createTime = createtime</span><br><span class="line">resultArray.append(download)</span><br><span class="line">&#125;</span><br><span class="line">complete(resultArray)</span><br><span class="line">return</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 查询某个url是否已经下载过</span><br><span class="line">///</span><br><span class="line">/// - Parameter url: URL地址</span><br><span class="line">/// - Returns: 是否下载过</span><br><span class="line">class func isDownloadExit(_ url:String)-&gt;Bool&#123;</span><br><span class="line">var exit = false</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let checksql = String.init(format: &quot;select * from %@ where url = &apos;%@&apos;&quot;,self.downloadsTable, url.urlEncoded())</span><br><span class="line"></span><br><span class="line">guard let exitresult = db?.executeQuery(checksql, withArgumentsIn: nil) else &#123;</span><br><span class="line"></span><br><span class="line">debugPrint(&quot;\(String(describing: db?.lastErrorMessage()))&quot;)</span><br><span class="line">return</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">if exitresult.next() &#123;</span><br><span class="line">debugPrint(&quot;下载已存在！&quot;)</span><br><span class="line">exit = true</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">return exit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 添加一个下载任务</span><br><span class="line">///</span><br><span class="line">/// - Parameters:</span><br><span class="line">///   - url: 下载地址</span><br><span class="line">///   - title: 任务的标题</span><br><span class="line">class func dbAddDownload(_ url:String,webUrl:String,title:String)&#123;</span><br><span class="line"></span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line"></span><br><span class="line">debugPrint(&quot;准备添加新的下载数据！&quot;)</span><br><span class="line">let now = Date.init().timeIntervalSince1970</span><br><span class="line"></span><br><span class="line">let sql = String.init(format: &quot;insert into %@ (url,weburl,title,downloadsize,filesize,createtime) values (&apos;%@&apos;,&apos;%@&apos;,&apos;%@&apos;,0,1,%f)&quot; ,self.downloadsTable,url.urlEncoded(),webUrl.urlEncoded(),title.urlEncoded(),now)</span><br><span class="line"></span><br><span class="line">let result = db?.executeUpdate(sql, withArgumentsIn: nil)</span><br><span class="line"></span><br><span class="line">if result! &#123;</span><br><span class="line">debugPrint(&quot;dbAddDownload - \(url)&quot;)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">MBProgressHUD.showFailImage(&quot;db add download falid!&quot;)</span><br><span class="line">debugPrint(&quot;db add download falid! - \(url) \n \(String(describing: db?.lastErrorMessage()))&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 更新下载的进度信息</span><br><span class="line">///</span><br><span class="line">/// - Parameter data: 下载数据data</span><br><span class="line">class func updateDownloadStatus(data:DownloadData) &#123;</span><br><span class="line">let sql = &quot;update \(self.downloadsTable) set downloadsize = \(data.downloadsize),filesize = \(data.filesize)  where url = &apos;&quot; + data.url.urlEncoded() + &quot;&apos;&quot;</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let result = db?.executeUpdate(sql, withArgumentsIn: nil)</span><br><span class="line">if !result! &#123;</span><br><span class="line">debugPrint(&quot;db update download falid!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//MARK: - 说明书的数据库操作</span><br><span class="line">extension DBHelper &#123;</span><br><span class="line"></span><br><span class="line">/// 创建缓存的说明书表</span><br><span class="line">class func createInstructionsCacheTable() &#123;</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = &quot;create table if not exists \(self.instructionsCacheTable) (id integer primary key autoincrement,url text,title text,thumPath text,imgUrl text,tid integer,articletype integer,articeTitle text)&quot;</span><br><span class="line">let result = db?.executeUpdate(sql, withArgumentsIn: nil)</span><br><span class="line">if result! &#123;</span><br><span class="line">//表创建成功</span><br><span class="line">debugPrint(&quot;createInstructionsCacheTable sucess&quot;)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">debugPrint(&quot;instructionsCacheTable create faild!&quot;)</span><br><span class="line">MBProgressHUD.showFailImage(&quot;instructionsCacheTable create faild!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 添加说明书下载</span><br><span class="line">///</span><br><span class="line">/// - Parameter download: 说明书信息</span><br><span class="line">class func dbAddInstructionDownload(_ download:InstructionDownloadData)&#123;</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line"></span><br><span class="line">let imgPath = download.imgPath ?? &quot;&quot;</span><br><span class="line">let imgUrl = download.imgUrl ?? &quot;&quot;</span><br><span class="line">let sql = String.init(format: &quot;insert into %@ (url,title,thumPath,imgUrl,tid,articletype,articeTitle) values (&apos;%@&apos;,&apos;%@&apos;,&apos;%@&apos;,&apos;%@&apos;,%d,%d,&apos;%@&apos;)&quot;, self.instructionsCacheTable,download.url.urlEncoded(),download.title.urlEncoded(),imgPath.urlEncoded(),imgUrl.urlEncoded(),download.tid ?? 0,download.articletype ?? 0,download.articeTitle ?? &quot;unknown&quot;)</span><br><span class="line"></span><br><span class="line">let result = db?.executeUpdate(sql, withArgumentsIn: nil)</span><br><span class="line">if result! &#123;</span><br><span class="line">debugPrint(&quot;dbAddInstructionDownload - \(download.url)&quot;)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">MBProgressHUD.showFailImage(&quot;db add instructionCache falid!&quot;)</span><br><span class="line">debugPrint(&quot;db add instructionCache falid！ - \(download.url)&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 查询说明书的信息</span><br><span class="line">///</span><br><span class="line">/// - Parameters:</span><br><span class="line">///   - url: 下载地主</span><br><span class="line">///   - complete: 完成回调</span><br><span class="line">class func dbSearchInstructionInfo(by url:String,complete:@escaping (InstructionDownloadData)-&gt;()) &#123;</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = String.init(format: &quot;select * from %@ where url = &apos;%@&apos; ORDER BY id asc&quot;,self.instructionsCacheTable,url)</span><br><span class="line"></span><br><span class="line">guard let result = db?.executeQuery(sql, withArgumentsIn: nil) else &#123;</span><br><span class="line"></span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if result.next()&#123;</span><br><span class="line">inst.imgPath = result.string(forColumn: &quot;thumPath&quot;)</span><br><span class="line">inst.imgUrl = result.string(forColumn: &quot;imgUrl&quot;)</span><br><span class="line"></span><br><span class="line">inst.tid = Int(result.int(forColumn: &quot;tid&quot;))</span><br><span class="line">inst.articletype = Int(result.int(forColumn: &quot;articletype&quot;))</span><br><span class="line">inst.articeTitle = result.string(forColumn: &quot;articeTitle&quot;)</span><br><span class="line"></span><br><span class="line">complete(inst)</span><br><span class="line">&#125;</span><br><span class="line">result.close()</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里我使用了闭包进行数据的回传，实际上更应该通过返回值的方法，这样能完全隔离数据库操作。由于数据操作是同步执行，所以不必担心返回的时候数据库还没有执行完导致数据不全或者为空的问题。<br>我们改写一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class func dbSearchInstructionInfo(by url:String,complete:@escaping (InstructionDownloadData)-&gt;()) &#123;</span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = String.init(format: &quot;select * from %@ where url = &apos;%@&apos; ORDER BY id asc&quot;,self.instructionsCacheTable,url)</span><br><span class="line"></span><br><span class="line">guard let result = db?.executeQuery(sql, withArgumentsIn: nil) else &#123;</span><br><span class="line"></span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if result.next()&#123;</span><br><span class="line">inst.imgPath = result.string(forColumn: &quot;thumPath&quot;)</span><br><span class="line">inst.imgUrl = result.string(forColumn: &quot;imgUrl&quot;)</span><br><span class="line"></span><br><span class="line">inst.tid = Int(result.int(forColumn: &quot;tid&quot;))</span><br><span class="line">inst.articletype = Int(result.int(forColumn: &quot;articletype&quot;))</span><br><span class="line">inst.articeTitle = result.string(forColumn: &quot;articeTitle&quot;)</span><br><span class="line"></span><br><span class="line">complete(inst)</span><br><span class="line">&#125;</span><br><span class="line">result.close()</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>改写后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class func dbSearchInstructionInfo(by url:String) -&gt; InstructionDownloadData?&#123;</span><br><span class="line"></span><br><span class="line">var data:InstructionDownloadData? = nil</span><br><span class="line"></span><br><span class="line">self.dbQueue?.inDatabase(&#123; (db) in</span><br><span class="line">let sql = String.init(format: &quot;select * from %@ where url = &apos;%@&apos; ORDER BY id asc&quot;,self.instructionsCacheTable,url)</span><br><span class="line"></span><br><span class="line">guard let result = db?.executeQuery(sql, withArgumentsIn: nil) else &#123;</span><br><span class="line"></span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if result.next()&#123;</span><br><span class="line">let inst = InstructionDownloadData.init()</span><br><span class="line">inst.imgPath = result.string(forColumn: &quot;thumPath&quot;)</span><br><span class="line">inst.imgUrl = result.string(forColumn: &quot;imgUrl&quot;)</span><br><span class="line"></span><br><span class="line">inst.tid = Int(result.int(forColumn: &quot;tid&quot;))</span><br><span class="line">inst.articletype = Int(result.int(forColumn: &quot;articletype&quot;))</span><br><span class="line">inst.articeTitle = result.string(forColumn: &quot;articeTitle&quot;)</span><br><span class="line">data = inst</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">result.close()</span><br><span class="line">&#125;)</span><br><span class="line">return data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从此类之外所有地方，都不在与数据库进行交互。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/UITableViewCell选中后分割线消失问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -903,7 +1283,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -925,7 +1305,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

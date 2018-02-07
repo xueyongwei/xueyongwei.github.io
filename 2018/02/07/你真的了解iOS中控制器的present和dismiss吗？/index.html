@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="swift,present,dismiss,childViewControllers," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、了解present和dismiss一个iOS开发，这个控制器的打开和关闭，应该是接触UIKit所接触的第一个关于UIViewController的API，然而，你真的了解它吗？同样的，本文默认你已经了解UIViewController的present和dismis方法，并多次运用。另外本文不再加OC语言的代码，毕竟都能读得懂swift。 二、谁来调用dismiss方法？咱们从最基本的开始：一个">
+<meta name="keywords" content="swift,present,dismiss,childViewControllers">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你真的了解iOS中控制器的present和dismiss吗？">
+<meta property="og:url" content="http://yoursite.com/2018/02/07/你真的了解iOS中控制器的present和dismiss吗？/index.html">
+<meta property="og:site_name" content="薛永伟">
+<meta property="og:description" content="一、了解present和dismiss一个iOS开发，这个控制器的打开和关闭，应该是接触UIKit所接触的第一个关于UIViewController的API，然而，你真的了解它吗？同样的，本文默认你已经了解UIViewController的present和dismis方法，并多次运用。另外本文不再加OC语言的代码，毕竟都能读得懂swift。 二、谁来调用dismiss方法？咱们从最基本的开始：一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-6347991baf2aa0f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-2b16f648d346a624.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-054b2ffbe1f7358a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-40f1c832cdc313e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-6a2979fc09d9281a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-02-07T11:06:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你真的了解iOS中控制器的present和dismiss吗？">
+<meta name="twitter:description" content="一、了解present和dismiss一个iOS开发，这个控制器的打开和关闭，应该是接触UIKit所接触的第一个关于UIViewController的API，然而，你真的了解它吗？同样的，本文默认你已经了解UIViewController的present和dismis方法，并多次运用。另外本文不再加OC语言的代码，毕竟都能读得懂swift。 二、谁来调用dismiss方法？咱们从最基本的开始：一个">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1966717-6347991baf2aa0f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/07/你真的了解iOS中控制器的present和dismiss吗？/"/>
+
+
+
+
+
+  <title>你真的了解iOS中控制器的present和dismiss吗？ | 薛永伟</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">薛永伟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">种瓜得瓜,种豆得豆</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/07/你真的了解iOS中控制器的present和dismiss吗？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xueyongwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛永伟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">你真的了解iOS中控制器的present和dismiss吗？</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T19:02:26+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="一、了解present和dismiss"><a href="#一、了解present和dismiss" class="headerlink" title="一、了解present和dismiss"></a>一、了解present和dismiss</h5><p>一个iOS开发，这个控制器的打开和关闭，应该是接触UIKit所接触的第一个关于UIViewController的API，然而，你真的了解它吗？<br>同样的，本文默认你已经了解UIViewController的present和dismis方法，并多次运用。另外本文不再加OC语言的代码，毕竟都能读得懂swift。</p>
+<h5 id="二、谁来调用dismiss方法？"><a href="#二、谁来调用dismiss方法？" class="headerlink" title="二、谁来调用dismiss方法？"></a>二、谁来调用dismiss方法？</h5><p>咱们从最基本的开始：一个控制器A，和一个控制器B。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-6347991baf2aa0f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A present B"><br>让A打开B，在A中是这样写:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//A</span><br><span class="line">let B = ViewController()</span><br><span class="line">self.present(B, animated: true, completion: nil)</span><br></pre></td></tr></table></figure></p>
+<p>在B中需要关闭B的时候在B中这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//B</span><br><span class="line">self.dismiss(animated: true, completion: nil)</span><br></pre></td></tr></table></figure></p>
+<p>难道？这样写有问题？这….可能大多数开发者都是这么写，也没有出现过什么问题。但是…<br>YES，这样写在“理论”讲，是<strong>错误</strong>的。<br>别急，在实际上，这么写大多数情况是没有问题的，因为iOS系统帮我们做了很多。</p>
+<h5 id="三、presentingViewController和presentedViewController"><a href="#三、presentingViewController和presentedViewController" class="headerlink" title="三、presentingViewController和presentedViewController"></a>三、presentingViewController和presentedViewController</h5><p>想了解为什么说那么写在“理论上”是错误的，先从presentingViewController和presentedViewController说起。</p>
+<p>为了不使本文枯燥，不引用大段描述和说明，只针对案例解释。当从A中弹出B后：</p>
+<ol>
+<li>self.presentingViewController: 在A中，就是nil；在B中，就是A</li>
+<li>self.presentedViewController：在A中，就是B；在B中，就是nil</li>
+</ol>
+<p>那为什么说在B中调用dismiss在“理论上”是错的呢？因为有这么一个规则一定要记住！</p>
+<blockquote>
+<p>谁污染，谁治理！</p>
+</blockquote>
+<p>很熟悉对不对？MRC的法则，谁创建谁释放！所以A打开了B，当然是A来负责关闭！</p>
+<p>正确写法是在A里调用self.dismiss(animated: true, completion: nil)</p>
+<p>等等，之前都是B里调用？没错，dismiss方法系统会自动优化，当B视图控制器调用dismiss时，它并没有打开任何界面，就将dismissViewController方法会自动交给B的presentingViewController执行，也就是A来执行。<br>如果现在A没有打开B的话，调用dismissViewController时它没有presentedViewController，转交给它的presentingViewController，但是它也没有presentingViewController，所以dismiss就不执行了。swift中可选型能很好的解释了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.presentingViewController?.dismiss(animated: true, completion: nil) //presentingViewController为nil，后面的不执行</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>扩展：关于实例为空的时候方法不执行，可百度“iOS消息转发”了解。</p>
+</blockquote>
+<p><strong>既然这样，说这个有毛用？</strong><br>如果你从A打开了B，从B打开了C，现在怎么直接回到A？<br>你很可能会通过一些手段让B执行dismiss方法，但你会得到<strong>错误</strong>的结果，因为你这里如果交给B执行dismiss方法，和直接在C里面执行dismiss方法的效果是一样的，也就是说你到了B的界面并没有到A。<br>SO，dismiss方法必须让需要回到的这个控制器来执行。那么一个控制器的presentingViewController一定是打开它的那个控制器吗？继续往后看。</p>
+<h5 id="四、presentingViewController是打开它的那个控制器吗？"><a href="#四、presentingViewController是打开它的那个控制器吗？" class="headerlink" title="四、presentingViewController是打开它的那个控制器吗？"></a>四、presentingViewController是打开它的那个控制器吗？</h5><p>从上文，A打开了B，A是B的presentingViewController，那是不是所有的控制器的presentingViewController都是调用presnet方法打开自己的那个控制器呢？<br><strong>NO！</strong>但是刚才A打开了B，不是说A是B的presentingViewController吗？当然，不是说一个控制器A弹出一个控制器B，A就一定是B的presentingViewController。<br><img src="http://upload-images.jianshu.io/upload_images/1966717-2b16f648d346a624.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="吃屁吧你"></p>
+<p>别着急，看几个图片娱乐一下：<br><img src="http://upload-images.jianshu.io/upload_images/1966717-054b2ffbe1f7358a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="第一种"><br>这时箭头指向的控制器的presenting是谁？<br><img src="http://upload-images.jianshu.io/upload_images/1966717-40f1c832cdc313e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="第二种"><br>这时箭头指向的控制器的presenting是谁？</p>
+<p>第一个图片是navigationController，第二个是tabbarController。又跟你想的不一样了？看来你真的了解的太少，这时咱们得了解一下子控制器了。</p>
+<h5 id="四、子控制器childViewControllers"><a href="#四、子控制器childViewControllers" class="headerlink" title="四、子控制器childViewControllers"></a>四、子控制器childViewControllers</h5><p>刚才在了解presentingViewController和presentedViewController的时候，如果你用代码试了一下，会发现parentViewController(OC中，swift叫parent)，父控制器。有父就有子，每个控制器都有一个属性，叫做childViewControllers，存放它的子控制器。这里对childViewControllers的使用方法使用场景使用优势不做探讨。我们假设你了解并多次使用了子控制器来显示复杂界面的。</p>
+<p>但是实际上只要你学习iOS的UIKit，你就肯定已经多次，甚至经常使用了这个东西。<br>我们知道，在一个有导航控制器的控制器P中加入了子控制器Q，然后添加了Q的view，这个Q就可以使用self.navigationController进行跳转，Q是利用的P的导航控制器进行跳转。也就是说Q的关于控制器的操作都被P给处理了。</p>
+<p>那新加入一个问题：如果在Q中present出来一个界面R，那这个R的presentingViewController是谁呢？<br>是的，是P。此时已经出现了刚才说的问题，Q打开了R，但是R的presentingViewController却是P。这时因为Q是P的子控制器。</p>
+<p>那么就可以解释上面两个图片的结果为什么是navi控制器和tabbar控制器了。因为使用标签控制器和导航控制器，都是显示的子控制器的内容，一个带导航栏，一个带标签栏。<br>所有的控制器都有childViewControllers属性，保存了所有的子控制器，但是有些特殊的控制器，比如UIPageViewController、UINavigationController、UITabBarController等，还有一个viewControllers属性，实际内容和childViewControllers一样。这些特殊的控制器实际上不展示主要内容，主要内容由子控制器展示。<br>所以刚才说，只要你学了UIKit用了UINavigationController和UITabBarController，你就在使用childViewControllers在做界面的管理了。</p>
+<p>因此，当某个控制器有父控制器的时候，它的presentingViewController是父控制器的presentingViewController。</p>
+<p><strong>说这么多，又有毛用？</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1966717-6a2979fc09d9281a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>比如你做过转场动画，会用到这么个方法animateTransition(using transitionContext: UIViewControllerContextTransitioning)，当然你首先要做的，就是从context里获取toViewcontroller和fromViewController。如果你的这个转场是个modalPresent，此时你获取到的fromViewController可不一定是调用present的那个控制器，所以你要根据这个VC来做一些动画，可能就要有问题了。</p>
+<p>如果是带UINavigationController，需要通过nav.visibleViewController获取nav当前的控制器，如果是带UITabBarController，需要通过tab.selectedViewController获取tab当前的控制器。</p>
+<h5 id="四、如何强制指定presentingViewController就是打开自己的那个？"><a href="#四、如何强制指定presentingViewController就是打开自己的那个？" class="headerlink" title="四、如何强制指定presentingViewController就是打开自己的那个？"></a>四、如何强制指定presentingViewController就是打开自己的那个？</h5><p>我们需要了解一下这两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property(nonatomic,assign) BOOL definesPresentationContext;</span><br><span class="line">@property(nonatomic,assign) UIModalPresentationStyle modalPresentationStyle;</span><br></pre></td></tr></table></figure></p>
+<p>modalPresentationStyle属性决定了将要present的控制器以何种方式展现，默认值为UIModalTransitionStyleCoverVertical。如果把一个控制器的definesPresentationContext属性设置为YES，那么在需要进行UIModalPresentationCurrentContext类型的跳转的时候，UIKit会使用视图层级内的这个控制器来进行跳转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">avc.definesPresentationContext = false</span><br><span class="line">avc.modalPresentationStyle = .currentContext</span><br></pre></td></tr></table></figure>
+<p>大功告成！现在presentingViewController能够获取到我们期望的对象了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/swift/" rel="tag"># swift</a>
+          
+            <a href="/tags/present/" rel="tag"># present</a>
+          
+            <a href="/tags/dismiss/" rel="tag"># dismiss</a>
+          
+            <a href="/tags/childViewControllers/" rel="tag"># childViewControllers</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/07/FMDB从理论到实战-swift4/" rel="next" title="FMDB从理论到实战(swift4)">
+                <i class="fa fa-chevron-left"></i> FMDB从理论到实战(swift4)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="xueyongwei" />
+            
+              <p class="site-author-name" itemprop="name">xueyongwei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、了解present和dismiss"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4E86;&#x89E3;present&#x548C;dismiss" class="headerlink" title="&#x4E00;&#x3001;&#x4E86;&#x89E3;present&#x548C;dismiss"></a>&#x4E00;&#x3001;&#x4E86;&#x89E3;present&#x548C;dismiss</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二、谁来调用dismiss方法？"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x8C01;&#x6765;&#x8C03;&#x7528;dismiss&#x65B9;&#x6CD5;&#xFF1F;" class="headerlink" title="&#x4E8C;&#x3001;&#x8C01;&#x6765;&#x8C03;&#x7528;dismiss&#x65B9;&#x6CD5;&#xFF1F;"></a>&#x4E8C;&#x3001;&#x8C01;&#x6765;&#x8C03;&#x7528;dismiss&#x65B9;&#x6CD5;&#xFF1F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三、presentingViewController和presentedViewController"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;presentingViewController&#x548C;presentedViewController" class="headerlink" title="&#x4E09;&#x3001;presentingViewController&#x548C;presentedViewController"></a>&#x4E09;&#x3001;presentingViewController&#x548C;presentedViewController</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四、presentingViewController是打开它的那个控制器吗？"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;presentingViewController&#x662F;&#x6253;&#x5F00;&#x5B83;&#x7684;&#x90A3;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x5417;&#xFF1F;" class="headerlink" title="&#x56DB;&#x3001;presentingViewController&#x662F;&#x6253;&#x5F00;&#x5B83;&#x7684;&#x90A3;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x5417;&#xFF1F;"></a>&#x56DB;&#x3001;presentingViewController&#x662F;&#x6253;&#x5F00;&#x5B83;&#x7684;&#x90A3;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x5417;&#xFF1F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四、子控制器childViewControllers"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x5B50;&#x63A7;&#x5236;&#x5668;childViewControllers" class="headerlink" title="&#x56DB;&#x3001;&#x5B50;&#x63A7;&#x5236;&#x5668;childViewControllers"></a>&#x56DB;&#x3001;&#x5B50;&#x63A7;&#x5236;&#x5668;childViewControllers</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四、如何强制指定presentingViewController就是打开自己的那个？"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x5982;&#x4F55;&#x5F3A;&#x5236;&#x6307;&#x5B9A;presentingViewController&#x5C31;&#x662F;&#x6253;&#x5F00;&#x81EA;&#x5DF1;&#x7684;&#x90A3;&#x4E2A;&#xFF1F;" class="headerlink" title="&#x56DB;&#x3001;&#x5982;&#x4F55;&#x5F3A;&#x5236;&#x6307;&#x5B9A;presentingViewController&#x5C31;&#x662F;&#x6253;&#x5F00;&#x81EA;&#x5DF1;&#x7684;&#x90A3;&#x4E2A;&#xFF1F;"></a>&#x56DB;&#x3001;&#x5982;&#x4F55;&#x5F3A;&#x5236;&#x6307;&#x5B9A;presentingViewController&#x5C31;&#x662F;&#x6253;&#x5F00;&#x81EA;&#x5DF1;&#x7684;&#x90A3;&#x4E2A;&#xFF1F;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xueyongwei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
