@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Commitizen,Git,commit message,swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、为什么需要标准化的commit message先来看两张图，一张来自国际知名项目，一张是国内某知名项目(笑)。 国际知名项目AngularJS 国内知名项目MingGeJS 从上面两张图中，我想你已经能看出一些端倪来了吧，相较而言哪种更加能促进开发不言自明。当然，我举这个国内知名项目比较极端，不过整体而言都普遍存在Commit Message比较随意的现象。 Commit规范顺着思路，这一步应">
+<meta name="keywords" content="Commitizen,Git,commit message,swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Commitizen的安装和使用">
+<meta property="og:url" content="http://yoursite.com/2018/04/13/Commitizen的安装和使用/index.html">
+<meta property="og:site_name" content="薛永伟">
+<meta property="og:description" content="一、为什么需要标准化的commit message先来看两张图，一张来自国际知名项目，一张是国内某知名项目(笑)。 国际知名项目AngularJS 国内知名项目MingGeJS 从上面两张图中，我想你已经能看出一些端倪来了吧，相较而言哪种更加能促进开发不言自明。当然，我举这个国内知名项目比较极端，不过整体而言都普遍存在Commit Message比较随意的现象。 Commit规范顺着思路，这一步应">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-9dab388939d29981?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-50b2a17135b7ce72?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-d12361273625cc5d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1966717-14381765ab9efcf3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1966717-1dbd6294bb208b46.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2018-04-13T06:43:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Commitizen的安装和使用">
+<meta name="twitter:description" content="一、为什么需要标准化的commit message先来看两张图，一张来自国际知名项目，一张是国内某知名项目(笑)。 国际知名项目AngularJS 国内知名项目MingGeJS 从上面两张图中，我想你已经能看出一些端倪来了吧，相较而言哪种更加能促进开发不言自明。当然，我举这个国内知名项目比较极端，不过整体而言都普遍存在Commit Message比较随意的现象。 Commit规范顺着思路，这一步应">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1966717-9dab388939d29981?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/13/Commitizen的安装和使用/"/>
+
+
+
+
+
+  <title>Commitizen的安装和使用 | 薛永伟</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">薛永伟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">种瓜得瓜,种豆得豆</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/13/Commitizen的安装和使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xueyongwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛永伟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Commitizen的安装和使用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-13T14:42:20+08:00">
+                2018-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、为什么需要标准化的commit-message"><a href="#一、为什么需要标准化的commit-message" class="headerlink" title="一、为什么需要标准化的commit message"></a>一、为什么需要标准化的commit message</h3><p>先来看两张图，一张来自国际知名项目，一张是国内某知名项目(笑)。</p>
+<h5 id="国际知名项目AngularJS"><a href="#国际知名项目AngularJS" class="headerlink" title="国际知名项目AngularJS"></a>国际知名项目AngularJS</h5><p><img src="http://upload-images.jianshu.io/upload_images/1966717-9dab388939d29981?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h5 id="国内知名项目MingGeJS"><a href="#国内知名项目MingGeJS" class="headerlink" title="国内知名项目MingGeJS"></a>国内知名项目MingGeJS</h5><p><img src="http://upload-images.jianshu.io/upload_images/1966717-50b2a17135b7ce72?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>从上面两张图中，我想你已经能看出一些端倪来了吧，相较而言哪种更加能促进开发不言自明。当然，我举这个国内知名项目比较极端，不过整体而言都普遍存在Commit Message比较随意的现象。</p>
+<h4 id="Commit规范"><a href="#Commit规范" class="headerlink" title="Commit规范"></a>Commit规范</h4><p>顺着思路，这一步应该给方案了，方案就是上图AngularJS项目中用到的Git Commit Guidelines。</p>
+<h4 id="Commit-Message-格式"><a href="#Commit-Message-格式" class="headerlink" title="Commit Message 格式"></a>Commit Message 格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">&lt;空行&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;空行&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+<p>上面是一次Commit后Message格式规范，分成标题，内容详情，结尾三个部分，各有各的用处，没有多余项。</p>
+<p>头部即首行，是可以直接在页面中预览的部分，入上面图中所示，一共有三个部分<type>，<scope>，<subject>，含义分别如下</subject></scope></type></p>
+<ul>
+<li>feat：新功能（feature）</li>
+<li>fix：修补bug</li>
+<li>docs：文档（documentation）</li>
+<li>style： 格式（不影响代码运行的变动）</li>
+<li>refactor：重构（即不是新增功能，也不是修改bug的代码变动）</li>
+<li>test：增加测试</li>
+<li>chore：构建过程或辅助工具的变动</li>
+</ul>
+<h5 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h5><ul>
+<li><p>feat：新功能（feature）</p>
+</li>
+<li><p>fix：修补bug</p>
+</li>
+<li><p>docs：文档（documentation）</p>
+</li>
+<li><p>style： 格式（不影响代码运行的变动）</p>
+</li>
+<li><p>refactor：重构（即不是新增功能，也不是修改bug的代码变动）</p>
+</li>
+<li><p>test：增加测试</p>
+</li>
+<li><p>chore：构建过程或辅助工具的变动</p>
+</li>
+</ul>
+<h5 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h5><p>用来说明本次Commit影响的范围，即简要说明修改会涉及的部分。这个本来是选填项，但从AngularJS实际项目中可以看出基本上也成了必填项了。</p>
+<h5 id="Subject"><a href="#Subject" class="headerlink" title="Subject"></a>Subject</h5><p>用来简要描述本次改动，概述就好了，因为后面还会在Body里给出具体信息。并且最好遵循下面三条:</p>
+<ul>
+<li><p>以动词开头，使用第一人称现在时，比如change，而不是changed或changes</p>
+</li>
+<li><p>首字母不要大写</p>
+</li>
+<li><p>结尾不用句号(.)</p>
+</li>
+</ul>
+<h5 id="Body"><a href="#Body" class="headerlink" title="Body"></a>Body</h5><p><body>里的内容是对上面subject<subject style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">里内容的展开，在此做更加详尽的描述，内容里应该包含修改动机和修改前后的对比。</subject></body></p>
+<h5 id="Footer"><a href="#Footer" class="headerlink" title="Footer"></a>Footer</h5><p>footer里的主要放置<strong>不兼容变更</strong>和<strong>Issue关闭</strong>的信息，参考下面两个例子</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1966717-d12361273625cc5d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1966717-14381765ab9efcf3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h5 id="Revert"><a href="#Revert" class="headerlink" title="Revert"></a>Revert</h5><p>此外如果需要撤销之前的Commit，那么本次Commit Message中必须以<code>revert：</code>开头，后面紧跟前面描述的Header部分，格式不变。并且，Body部分的格式也是固定的，必须要记录撤销前Commit的SHA值。</p>
+<h4 id="实践利器"><a href="#实践利器" class="headerlink" title="实践利器"></a>实践利器</h4><p>上面就是AngularJS目前的Commit规范，相信第一次接触的话不免会有些头大，这时如果有什么能Step by Step的提醒或者可视化的演示就好了。OK，你来对地儿了，现在就来说说如何把规范变为可执行的具体步骤！</p>
+<h3 id="二、工欲善其事，必先利其器-Commitizen"><a href="#二、工欲善其事，必先利其器-Commitizen" class="headerlink" title="二、工欲善其事，必先利其器 - Commitizen"></a>二、工欲善其事，必先利其器 - Commitizen</h3><p>大量的代码提交，必然会产生大量的commit log，而每一次commit是阶段性的Ending，应记录着这一阶段所完成的事以及关注点，尽可能详细具体；且提供更多的历史信息，方便快速浏览；可以过滤某些commit（比如文档改动），便于快速查找信息；可以直接从commit生成Change log。所以log的格式就是关键所在，而<a href="https://www.npmjs.com/package/commitizen" target="_blank" rel="noopener">Commitizen</a>可以完美的解决这些问题。</p>
+<h4 id="Commitizen是什么？"><a href="#Commitizen是什么？" class="headerlink" title="Commitizen是什么？"></a>Commitizen是什么？</h4><p>是一个格式化commit message的工具。它的安装需要<a href="https://www.npmjs.com/package/npm" target="_blank" rel="noopener">NPM</a>的支持，NPM是Node.js的包管理工具，所以首先安装<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">node.js</a>，下载对应系统的包，安装即可。<br>命令安装Node.js：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure></p>
+<h4 id="Commitizen安装"><a href="#Commitizen安装" class="headerlink" title="Commitizen安装"></a>Commitizen安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g commitizen</span><br></pre></td></tr></table></figure>
+<p>安装changelog，是生成changelog的工具<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g conventional-changelog</span><br><span class="line">npm install -g conventional-changelog-cli</span><br></pre></td></tr></table></figure></p>
+<p>执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm ls -g -depth=0</span><br></pre></td></tr></table></figure></p>
+<p>检验上面两个工具是否安装成功，得到结果如下，表示成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/lib</span><br><span class="line">├── commitizen@2.9.6</span><br><span class="line">├── conventional-changelog@1.1.7</span><br><span class="line">├── conventional-changelog-cli@1.3.5</span><br><span class="line">└── npm@5.5.1</span><br></pre></td></tr></table></figure></p>
+<p>然后，运行下面命令，使其支持Angular的Commit message格式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commitizen init cz-conventional-changelog --save --save-exact</span><br></pre></td></tr></table></figure></p>
+<p>但是注意，因为commitizen工具是基于Node.js的，而我们iOS项目工程目录下是没有package.json文件，所以会报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm WARN saveError ENOENT: no such file or directory, open &apos;/Users/Elite/package.json&apos;</span><br><span class="line">npm WARN enoent ENOENT: no such file or directory, open &apos;/Users/Elite/package.json&apos;</span><br></pre></td></tr></table></figure></p>
+<p>对于此种错误，创建一个空的package.json文件，然后进入到项目目录，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init --yes</span><br></pre></td></tr></table></figure></p>
+<p>会生成项目对应项目的package.json，将项目目录下产生的package.json的内容写入到自己建的package.json（/User/Elite/package.json）中，如果有多个项目，将各项目生成的package.json内容写入到package.json中，下面是我的配置（/User/Elite/package.json）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">  &quot;name&quot;: &quot;salary&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&gt; v1.0 涵盖所有老师（非中教）的基本工资、奖励工资、惩罚工资。&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;repository&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;git&quot;,</span><br><span class="line">    &quot;url&quot;: &quot;git@***.***.com:erp/salary.git&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;cz-conventional-changelog&quot;: &quot;^2.1.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;config&quot;: &#123;</span><br><span class="line">    &quot;commitizen&quot;: &#123;</span><br><span class="line">      &quot;path&quot;: &quot;./node_modules/cz-conventional-changelog&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;&#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;ats&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;composer.json composer配置 vendor 第三方类库&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;directories&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;tests&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;repository&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;git&quot;,</span><br><span class="line">    &quot;url&quot;: &quot;git@***.***.com:ats/ats.git&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure></p>
+<p>然后进入到你要操作的项目目录，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conventional-changelog -p angular -i CHANGELOG.md -s</span><br></pre></td></tr></table></figure></p>
+<p>此时项目中多了CHANGELOG.md文件，表示生成 Change log成功了。以后，凡是用到git commit 命令的时候统一改为git cz,然后就会出现选项，生成符合格式的Commit Message。实例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">? Select the type of change that you&apos;re committing: (Use arrow keys)</span><br><span class="line">? feat:     A new feature </span><br><span class="line">  fix:      A bug fix </span><br><span class="line">  docs:     Documentation only changes </span><br><span class="line">  style:    Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) </span><br><span class="line">  refactor: A code change that neither fixes a bug nor adds a feature </span><br><span class="line">  perf:     A code change that improves performance </span><br><span class="line">  test:     Adding missing tests or correcting existing tests</span><br></pre></td></tr></table></figure></p>
+<p>然后按操作执行，即可产生change log。如果最后产生一个这样的错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error: Could not resolve /Users/Elite/web/node_modules/cz-conventional-changelog. </span><br><span class="line">Cannot find module &apos;/Users/Elite/web/node_modules/cz-conventional-changelog&apos;</span><br></pre></td></tr></table></figure></p>
+<p>只需做个软连接即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /Users/Elite/node_modules /Users/Elite/web/node_modules</span><br></pre></td></tr></table></figure></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在代码更改后，提交commit message的时候，不再使用git commit -m方法，而是git cz，将会出现交互式选项，让你选择或者输入信息，给你一个完善的commit message。示例动图：<br><img src="https://upload-images.jianshu.io/upload_images/1966717-1dbd6294bb208b46.gif?imageMogr2/auto-orient/strip" alt="相当犀利"></p>
+<p>OK。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Commitizen/" rel="tag"># Commitizen</a>
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+            <a href="/tags/commit-message/" rel="tag"># commit message</a>
+          
+            <a href="/tags/swift/" rel="tag"># swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/07/你真的了解iOS中控制器的present和dismiss吗？/" rel="next" title="你真的了解iOS中控制器的present和dismiss吗？">
+                <i class="fa fa-chevron-left"></i> 你真的了解iOS中控制器的present和dismiss吗？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="xueyongwei" />
+            
+              <p class="site-author-name" itemprop="name">xueyongwei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、为什么需要标准化的commit-message"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x9700;&#x8981;&#x6807;&#x51C6;&#x5316;&#x7684;commit-message" class="headerlink" title="&#x4E00;&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x9700;&#x8981;&#x6807;&#x51C6;&#x5316;&#x7684;commit message"></a>&#x4E00;&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x9700;&#x8981;&#x6807;&#x51C6;&#x5316;&#x7684;commit message</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#国际知名项目AngularJS"><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#&#x56FD;&#x9645;&#x77E5;&#x540D;&#x9879;&#x76EE;AngularJS" class="headerlink" title="&#x56FD;&#x9645;&#x77E5;&#x540D;&#x9879;&#x76EE;AngularJS"></a>&#x56FD;&#x9645;&#x77E5;&#x540D;&#x9879;&#x76EE;AngularJS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#国内知名项目MingGeJS"><span class="nav-number">1.0.2.</span> <span class="nav-text"><a href="#&#x56FD;&#x5185;&#x77E5;&#x540D;&#x9879;&#x76EE;MingGeJS" class="headerlink" title="&#x56FD;&#x5185;&#x77E5;&#x540D;&#x9879;&#x76EE;MingGeJS"></a>&#x56FD;&#x5185;&#x77E5;&#x540D;&#x9879;&#x76EE;MingGeJS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Commit规范"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#Commit&#x89C4;&#x8303;" class="headerlink" title="Commit&#x89C4;&#x8303;"></a>Commit&#x89C4;&#x8303;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Commit-Message-格式"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#Commit-Message-&#x683C;&#x5F0F;" class="headerlink" title="Commit Message &#x683C;&#x5F0F;"></a>Commit Message &#x683C;&#x5F0F;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Type"><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#Type" class="headerlink" title="Type"></a>Type</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scope"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Subject"><span class="nav-number">1.2.3.</span> <span class="nav-text"><a href="#Subject" class="headerlink" title="Subject"></a>Subject</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Body"><span class="nav-number">1.2.4.</span> <span class="nav-text"><a href="#Body" class="headerlink" title="Body"></a>Body</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Footer"><span class="nav-number">1.2.5.</span> <span class="nav-text"><a href="#Footer" class="headerlink" title="Footer"></a>Footer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Revert"><span class="nav-number">1.2.6.</span> <span class="nav-text"><a href="#Revert" class="headerlink" title="Revert"></a>Revert</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实践利器"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x5B9E;&#x8DF5;&#x5229;&#x5668;" class="headerlink" title="&#x5B9E;&#x8DF5;&#x5229;&#x5668;"></a>&#x5B9E;&#x8DF5;&#x5229;&#x5668;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、工欲善其事，必先利其器-Commitizen"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;-Commitizen" class="headerlink" title="&#x4E8C;&#x3001;&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668; - Commitizen"></a>&#x4E8C;&#x3001;&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668; - Commitizen</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Commitizen是什么？"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#Commitizen&#x662F;&#x4EC0;&#x4E48;&#xFF1F;" class="headerlink" title="Commitizen&#x662F;&#x4EC0;&#x4E48;&#xFF1F;"></a>Commitizen&#x662F;&#x4EC0;&#x4E48;&#xFF1F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Commitizen安装"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#Commitizen&#x5B89;&#x88C5;" class="headerlink" title="Commitizen&#x5B89;&#x88C5;"></a>Commitizen&#x5B89;&#x88C5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;" class="headerlink" title="&#x4F7F;&#x7528;"></a>&#x4F7F;&#x7528;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xueyongwei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
